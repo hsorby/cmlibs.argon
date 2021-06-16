@@ -36,7 +36,7 @@ class ArgonDocument(object):
         self._sceneviewer = None
 
     def initialiseVisualisationContents(self):
-        self._zincContext = Context("Neon")
+        self._zincContext = Context("Argon")
 
         sceneviewermodule = self._zincContext.getSceneviewermodule()
         sceneviewermodule.setDefaultBackgroundColourRGB([1.0, 0.0, 1.0])
