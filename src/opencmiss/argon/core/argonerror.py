@@ -1,5 +1,5 @@
-
-   Copyright 2021 University of Auckland
+"""
+   Copyright 2016 University of Auckland
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -12,3 +12,16 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+"""
+
+
+class ArgonError(Exception):
+
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return repr(self.message)
+
+    def getMessage(self):
+        return self.message

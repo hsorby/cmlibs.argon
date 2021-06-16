@@ -1,5 +1,5 @@
-
-   Copyright 2021 University of Auckland
+"""
+   Copyright 2015 University of Auckland
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -12,3 +12,13 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+"""
+
+
+VERSION_MAJOR = 0
+VERSION_MINOR = 2
+VERSION_PATCH = 0
+VERSION_STRING = f"{VERSION_MAJOR}.{VERSION_MINOR}.{VERSION_PATCH}"
+VERSION_LIST = [VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH]
+
+FLOAT_STRING_FORMAT = '{:.5g}'
