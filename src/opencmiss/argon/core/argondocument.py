@@ -16,12 +16,12 @@
 import json
 
 from opencmiss.argon.core.argonsceneviewer import ArgonSceneviewer
-from opencmiss.argon.settings import mainsettings
 from opencmiss.argon.core.argonregion import ArgonRegion
 from opencmiss.argon.core.argonspectrums import ArgonSpectrums
 from opencmiss.argon.core.argontessellations import ArgonTessellations
-from opencmiss.argon.core.misc.argonerror import ArgonError
+from opencmiss.argon.core.argonerror import ArgonError
 from opencmiss.argon.core.argonlogger import ArgonLogger
+from opencmiss.argon.settings import mainsettings
 from opencmiss.zinc.context import Context
 from opencmiss.zinc.material import Material
 
