@@ -1,5 +1,5 @@
-
-   Copyright 2021 University of Auckland
+"""
+   Copyright 2015 University of Auckland
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -12,3 +12,18 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+"""
+from opencmiss.argon.core.serializers.base import BaseSerialiser
+
+
+class IdentifierValue(BaseSerialiser):
+
+    def __init__(self):
+        pass
+
+    def serialize(self, parameters):
+        string = ''
+        for k in parameters:
+            string += '{0} {1}\n'.format(k, parameters[k])
+
+        return string
