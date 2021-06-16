@@ -22,7 +22,6 @@ from opencmiss.argon.core.argonspectrums import ArgonSpectrums
 from opencmiss.argon.core.argontessellations import ArgonTessellations
 from opencmiss.argon.core.misc.argonerror import ArgonError
 from opencmiss.argon.core.argonlogger import ArgonLogger
-from opencmiss.argon.core.neonproject import NeonProject
 from opencmiss.zinc.context import Context
 from opencmiss.zinc.material import Material
 
@@ -30,7 +29,6 @@ from opencmiss.zinc.material import Material
 class ArgonDocument(object):
 
     def __init__(self):
-        self._project = None
         self._zincContext = None
         self._rootRegion = None
         self._spectrums = None
@@ -78,12 +76,6 @@ class ArgonDocument(object):
         del self._rootRegion
         del self._zincContext
 
-    def initialiseProject(self):
-        self._project = NeonProject()
-
-    def freeProject(self):
-        self._project = None
-
     def _regionChange(self, changedRegion, treeChange):
         """
         If root region has changed, set its new Zinc region as Zinc context's default region.
@@ -96,19 +88,17 @@ class ArgonDocument(object):
 
     def deserialize(self, state):
         """
-        :param  state: string serialisation of Neon JSON document
+        :param  state: string serialisation of Argon JSON document
         """
         d = json.loads(state)
-        if not (("OpenCMISS-Neon Version" in d) and ("RootRegion" in d)):
-            raise ArgonError("Invalid Neon file")
-        neon_version = d["OpenCMISS-Neon Version"]
-        if neon_version > mainsettings.VERSION_LIST:
-            raise ArgonError("File version is greater than this version of Neon (" + mainsettings.VERSION_STRING + "). Please update your Neon application.")
+        if not (("OpenCMISS-Argon Version" in d) and ("RootRegion" in d)):
+            raise ArgonError("Invalid Argon document")
+        argon_version = d["OpenCMISS-Argon Version"]
+        if argon_version > mainsettings.VERSION_LIST:
+            raise ArgonError("Document version is greater than this version of Argon (" + mainsettings.VERSION_STRING + "). Please update your Argon application.")
         # Ideally would enclose following in:
         # try: zincRegion.beginHierarchicalChange() ... finally: zincRegion.endHierarchicalChange()
         # Can't do this due to Zinc issue 3924 which prevents computed field wrappers being created, so graphics can't find fields
-        if "Project" in d:
-            self._project.deserialize(d["Project"])
         if "Tessellations" in d:
             self._tessellations.deserialize(d["Tessellations"])
         if "Spectrums" in d:
@@ -116,13 +106,10 @@ class ArgonDocument(object):
         if "Sceneviewer" in d:
             self._sceneviewer.deserialize(d["Sceneviewer"])
         self._rootRegion.deserialize(d["RootRegion"])
-        if neon_version == '0.1.0':
-            self._problem.setName('Generic')
 
     def serialize(self, basePath=None):
         dictOutput = {}
-        dictOutput["OpenCMISS-Neon Version"] = mainsettings.VERSION_LIST
-        dictOutput["Project"] = self._project.serialize()
+        dictOutput["OpenCMISS-Argon Version"] = mainsettings.VERSION_LIST
         dictOutput["Spectrums"] = self._spectrums.serialize()
         dictOutput["Tessellations"] = self._tessellations.serialize()
         dictOutput["RootRegion"] = self._rootRegion.serialize(basePath)
@@ -140,12 +127,6 @@ class ArgonDocument(object):
 
     def getTessellations(self):
         return self._tessellations
-
-    def setProject(self, project):
-        self._project = project
-
-    def getProject(self):
-        return self._project
 
     def getSceneviewer(self):
         return self._sceneviewer
