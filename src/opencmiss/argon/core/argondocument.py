@@ -39,7 +39,7 @@ class ArgonDocument(object):
         self._zincContext = Context("Argon")
 
         sceneviewermodule = self._zincContext.getSceneviewermodule()
-        sceneviewermodule.setDefaultBackgroundColourRGB([1.0, 0.0, 1.0])
+        sceneviewermodule.setDefaultBackgroundColourRGB([1.0, 1.0, 1.0])
 
         # set up standard materials and glyphs
         materialmodule = self._zincContext.getMaterialmodule()
