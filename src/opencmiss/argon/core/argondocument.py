@@ -108,8 +108,6 @@ class ArgonDocument(object):
             self._tessellations.deserialize(d["Tessellations"])
         if "Spectrums" in d:
             self._spectrums.deserialize(d["Spectrums"])
-        if "Materials" in d:
-            self._materials.deserialize(d["Materials"])
         if "Sceneviewer" in d:
             self._sceneviewer.deserialize(d["Sceneviewer"])
         if "Materials" in d:
