@@ -33,6 +33,7 @@ class ArgonDocument(object):
         self._zincContext = None
         self._rootRegion = None
         self._spectrums = None
+        self._materials = None
         self._tessellations = None
         self._sceneviewer = None
 
@@ -40,7 +41,7 @@ class ArgonDocument(object):
         self._zincContext = Context("Argon")
 
         sceneviewermodule = self._zincContext.getSceneviewermodule()
-        sceneviewermodule.setDefaultBackgroundColourRGB([1.0, 0.0, 1.0])
+        sceneviewermodule.setDefaultBackgroundColourRGB([1.0, 1.0, 1.0])
 
         # set up standard materials and glyphs
         materialmodule = self._zincContext.getMaterialmodule()
@@ -61,6 +62,7 @@ class ArgonDocument(object):
         self._rootRegion = ArgonRegion(name=None, zincRegion=zincRootRegion, parent=None)
         self._rootRegion.connectRegionChange(self._regionChange)
 
+        self._materials = materialmodule
         self._spectrums = ArgonSpectrums(self._zincContext)
         self._materials = ArgonMaterials(self._zincContext)
         self._tessellations = ArgonTessellations(self._zincContext)
@@ -110,16 +112,19 @@ class ArgonDocument(object):
             self._materials.deserialize(d["Materials"])
         if "Sceneviewer" in d:
             self._sceneviewer.deserialize(d["Sceneviewer"])
+        if "Materials" in d:
+            self._materials.deserialize(d["Materials"])
         self._rootRegion.deserialize(d["RootRegion"])
 
     def serialize(self, basePath=None):
-        dictOutput = {}
-        dictOutput["OpenCMISS-Argon Version"] = mainsettings.VERSION_LIST
-        dictOutput["Spectrums"] = self._spectrums.serialize()
-        dictOutput["Materials"] = self._materials.serialize()
-        dictOutput["Tessellations"] = self._tessellations.serialize()
-        dictOutput["RootRegion"] = self._rootRegion.serialize(basePath)
-        dictOutput["Sceneviewer"] = self._sceneviewer.serialize()
+        dictOutput = {
+            "OpenCMISS-Argon Version": mainsettings.VERSION_LIST,
+            "Spectrums": self._spectrums.serialize(),
+            "Materials": self._materials.serialize(),
+            "Tessellations": self._tessellations.serialize(),
+            "RootRegion": self._rootRegion.serialize(basePath),
+            "Sceneviewer": self._sceneviewer.serialize()
+        }
         return json.dumps(dictOutput, default=lambda o: o.__dict__, sort_keys=True, indent=2)
 
     def getZincContext(self):
