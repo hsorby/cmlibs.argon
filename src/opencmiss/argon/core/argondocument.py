@@ -39,7 +39,7 @@ class ArgonDocument(object):
         self._zincContext = Context("Argon")
 
         sceneviewermodule = self._zincContext.getSceneviewermodule()
-        sceneviewermodule.setDefaultBackgroundColourRGB([1.0, 0.0, 1.0])
+        sceneviewermodule.setDefaultBackgroundColourRGB([1.0, 1.0, 1.0])
 
         # set up standard materials and glyphs
         materialmodule = self._zincContext.getMaterialmodule()
@@ -60,6 +60,7 @@ class ArgonDocument(object):
         self._rootRegion = ArgonRegion(name=None, zincRegion=zincRootRegion, parent=None)
         self._rootRegion.connectRegionChange(self._regionChange)
 
+        self._materials = materialmodule
         self._spectrums = ArgonSpectrums(self._zincContext)
         self._tessellations = ArgonTessellations(self._zincContext)
         self._sceneviewer = ArgonSceneviewer(self._zincContext)
@@ -73,6 +74,7 @@ class ArgonDocument(object):
         del self._sceneviewer
         del self._tessellations
         del self._spectrums
+        del self._materials
         del self._rootRegion
         del self._zincContext
 
@@ -105,12 +107,15 @@ class ArgonDocument(object):
             self._spectrums.deserialize(d["Spectrums"])
         if "Sceneviewer" in d:
             self._sceneviewer.deserialize(d["Sceneviewer"])
+        if "Materials" in d:
+            self._materials.readDescription(d["Materials"])
         self._rootRegion.deserialize(d["RootRegion"])
 
     def serialize(self, basePath=None):
         dictOutput = {}
         dictOutput["OpenCMISS-Argon Version"] = mainsettings.VERSION_LIST
         dictOutput["Spectrums"] = self._spectrums.serialize()
+        dictOutput["Materials"] = self._materials.writeDescription()
         dictOutput["Tessellations"] = self._tessellations.serialize()
         dictOutput["RootRegion"] = self._rootRegion.serialize(basePath)
         dictOutput["Sceneviewer"] = self._sceneviewer.serialize()
@@ -124,6 +129,9 @@ class ArgonDocument(object):
 
     def getSpectrums(self):
         return self._spectrums
+
+    def getMaterials(self):
+        return self._materials
 
     def getTessellations(self):
         return self._tessellations
