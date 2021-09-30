@@ -83,10 +83,10 @@ def setup_custom_logger(name):
     handler = LogsToWidgetHandler()
     handler.setFormatter(formatter)
 
-    neonLogger = logging.getLogger(name)
-    neonLogger.setLevel(logging.DEBUG)
-    neonLogger.addHandler(handler)
-    return neonLogger
+    argonLogger = logging.getLogger(name)
+    argonLogger.setLevel(logging.DEBUG)
+    argonLogger.addHandler(handler)
+    return argonLogger
 
 
 class ArgonLogger(object):
@@ -97,7 +97,7 @@ class ArgonLogger(object):
     @staticmethod
     def getLogger():
         if (not ArgonLogger._logger):
-            ArgonLogger._logger = setup_custom_logger("Neon")
+            ArgonLogger._logger = setup_custom_logger("Argon")
         return ArgonLogger._logger
 
     @staticmethod
