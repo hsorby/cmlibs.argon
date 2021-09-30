@@ -48,6 +48,7 @@ if HAVE_PYSIDE2:
                 self.messageWritten.emit(msg, level)
 else:
     class CustomStreamImpl(object):
+
         def flush(self):
             pass
 
