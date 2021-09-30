@@ -13,6 +13,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
+import json
+
+from opencmiss.zinc.status import OK as ZINC_OK
+from opencmiss.argon.core.argonerror import ArgonError
 
 class ArgonMaterials(object):
     """
@@ -30,8 +34,7 @@ class ArgonMaterials(object):
         materialsDescription = json.dumps(dictInput)
         result = self._materialsmodule.readDescription(materialsDescription)
         if result != ZINC_OK:
-            raise ArgonError("Failed to read spectrums")
-        self._findOrCreateAllSpectrumGlyphColourBars()
+            raise ArgonError("Failed to read materials")
 
     def serialize(self):
         materialsDescription = self._materialsmodule.writeDescription()
