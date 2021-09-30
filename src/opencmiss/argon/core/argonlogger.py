@@ -17,30 +17,45 @@
 import sys
 import logging
 
-from PySide2 import QtCore
+try:
+    from PySide2 import QtCore
+    HAVE_PYSIDE2 = True
+except ImportError:
+    HAVE_PYSIDE2 = False
 
 from opencmiss.zinc.logger import Logger
 
-ENABLE_STD_STREAM_CAPTURE = True
+ENABLE_STD_STREAM_CAPTURE = HAVE_PYSIDE2
 
 
-class CustomStreamImpl(QtCore.QObject):
-    # Signal is a class variable; PySide creates per-instance SignalInstance object of same name
-    messageWritten = QtCore.Signal(str, str)
+if HAVE_PYSIDE2:
+    class CustomStreamImpl(QtCore.QObject):
+        # Signal is a class variable; PySide creates per-instance SignalInstance object of same name
+        messageWritten = QtCore.Signal(str, str)
 
-    # Note: if implementing __init__ you must call super __init__ for Signals to work.
-    # def __init__(self):
-    #     super(CustomStreamImpl, self).__init__()
+        # Note: if implementing __init__ you must call super __init__ for Signals to work.
+        # def __init__(self):
+        #     super(CustomStreamImpl, self).__init__()
 
-    def flush(self):
-        pass
+        def flush(self):
+            pass
 
-    def fileno(self):
-        return -1
+        def fileno(self):
+            return -1
 
-    def write(self, msg, level="INFORMATION"):
-        if not self.signalsBlocked():
-            self.messageWritten.emit(msg, level)
+        def write(self, msg, level="INFORMATION"):
+            if not self.signalsBlocked():
+                self.messageWritten.emit(msg, level)
+else:
+    class CustomStreamImpl(object):
+        def flush(self):
+            pass
+
+        def fileno(self):
+            return -1
+
+        def write(self, msg, level="INFORMATION"):
+            sys.stdout.write(f'{level} - {msg}')
 
 
 class CustomStream(object):
@@ -76,7 +91,7 @@ class LogsToWidgetHandler(logging.Handler):
             CustomStream.stdout().write('%s\n' % record, levelString)
 
 
-def setup_custom_logger(name):
+def setup_custom_logger(name, callback):
 
     formatter = logging.Formatter(fmt='%(asctime)s - %(levelname)s - %(module)s - %(message)s')
 
@@ -93,11 +108,16 @@ class ArgonLogger(object):
     _logger = None
     _zincLogger = None
     _loggerNotifier = None
+    _callback = None
+
+    @staticmethod
+    def setCallback(callback):
+        ArgonLogger._callback = callback
 
     @staticmethod
     def getLogger():
         if (not ArgonLogger._logger):
-            ArgonLogger._logger = setup_custom_logger("Argon")
+            ArgonLogger._logger = setup_custom_logger("Argon", ArgonLogger._callback)
         return ArgonLogger._logger
 
     @staticmethod

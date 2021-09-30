@@ -35,7 +35,7 @@ readme.append('')
 
 software_licence = readfile("LICENSE")
 
-requires = ['opencmiss.zinc', 'PySide2']
+requires = ['opencmiss.zinc']
 
 setup(
     name='opencmiss.argon',
