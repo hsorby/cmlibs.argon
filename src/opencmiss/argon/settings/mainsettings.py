@@ -14,10 +14,13 @@
    limitations under the License.
 """
 
+from opencmiss.argon import __version__
 
-VERSION_MAJOR = 0
-VERSION_MINOR = 2
-VERSION_PATCH = 0
+_split_version = __version__.split('.')
+
+VERSION_MAJOR = _split_version[0]
+VERSION_MINOR = _split_version[1]
+VERSION_PATCH = _split_version[2]
 VERSION_STRING = f"{VERSION_MAJOR}.{VERSION_MINOR}.{VERSION_PATCH}"
 VERSION_LIST = [VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH]
 

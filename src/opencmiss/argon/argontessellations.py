@@ -16,7 +16,7 @@
 import json
 
 from opencmiss.zinc.status import OK as ZINC_OK
-from opencmiss.argon.core.argonerror import ArgonError
+from opencmiss.argon.argonerror import ArgonError
 
 
 class ArgonTessellations(object):
