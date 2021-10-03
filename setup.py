@@ -7,12 +7,9 @@ from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, 'src', 'opencmiss', 'argon', 'settings', 'mainsettings.py')) as fd:
-    contents = fd.read()
-    version_major = re.search(r'^VERSION_MAJOR\s*=\s*([\d]*)', contents, re.MULTILINE).group(1)
-    version_minor = re.search(r'^VERSION_MINOR\s*=\s*([\d]*)', contents, re.MULTILINE).group(1)
-    version_patch = re.search(r'^VERSION_PATCH\s*=\s*([\d]*)', contents, re.MULTILINE).group(1)
-    version = f"{version_major}.{version_minor}.{version_patch}"
+with open(os.path.join(here, 'src', 'opencmiss', 'argon', '__init__.py')) as fd:
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
+                        fd.read(), re.MULTILINE).group(1)
 
 if not version:
     raise RuntimeError('Cannot find version information')
@@ -40,7 +37,7 @@ requires = ['opencmiss.zinc']
 setup(
     name='opencmiss.argon',
     version=version,
-    description='OpenCMISS-Argon core for GUI applications.',
+    description='OpenCMISS-Argon visualisation descriptions.',
     long_description='\n'.join(readme) + software_licence,
     long_description_content_type='text/x-rst',
     classifiers=[],

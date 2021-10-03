@@ -15,8 +15,8 @@
 """
 import json
 
-from opencmiss.argon.core.argonmodelsources import deserializeArgonModelSource
-from opencmiss.argon.core.argonerror import ArgonError
+from opencmiss.argon.argonmodelsources import deserializeArgonModelSource
+from opencmiss.argon.argonerror import ArgonError
 from opencmiss.zinc.status import OK as ZINC_OK
 
 

@@ -25,7 +25,7 @@ except ImportError:
 
 from opencmiss.zinc.logger import Logger
 
-ENABLE_STD_STREAM_CAPTURE = HAVE_PYSIDE2
+ENABLE_STD_STREAM_CAPTURE = False
 
 
 if HAVE_PYSIDE2:
@@ -89,6 +89,7 @@ class LogsToWidgetHandler(logging.Handler):
         levelString = record.levelname
         record = self.format(record)
         if record:
+            print('print record', record)
             CustomStream.stdout().write('%s\n' % record, levelString)
 
 

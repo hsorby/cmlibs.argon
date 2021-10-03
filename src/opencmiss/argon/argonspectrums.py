@@ -16,7 +16,7 @@
 import json
 
 from opencmiss.zinc.status import OK as ZINC_OK
-from opencmiss.argon.core.argonerror import ArgonError
+from opencmiss.argon.argonerror import ArgonError
 
 SPECTRUM_GLYPH_NAME_FORMAT = 'colour_bar_{0}'
 
