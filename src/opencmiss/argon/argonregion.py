@@ -20,6 +20,9 @@ from opencmiss.argon.argonerror import ArgonError
 from opencmiss.zinc.status import OK as ZINC_OK
 
 
+REGION_PATH_SEPARATOR = "/"
+
+
 class ArgonRegion(object):
 
     def __init__(self, name, zincRegion, parent=None):
@@ -262,7 +265,7 @@ class ArgonRegion(object):
         if self._name:
             return self._name
         elif not self._parent:
-            return "/"
+            return REGION_PATH_SEPARATOR
         return "?"
 
     def getName(self):
@@ -270,8 +273,8 @@ class ArgonRegion(object):
 
     def getPath(self):
         if self._name:
-            return self._parent.getPath() + self._name + "/"
-        return "/"
+            return self._parent.getPath() + self._name + REGION_PATH_SEPARATOR
+        return REGION_PATH_SEPARATOR
 
     def getParent(self):
         return self._parent
@@ -386,4 +389,5 @@ class ArgonRegion(object):
         """
         self._modelSources.remove(modelSource)
         if modelSource.isLoaded():
+            modelSource.unloaded()
             self._reload()

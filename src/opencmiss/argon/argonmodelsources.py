@@ -31,6 +31,7 @@ class ArgonModelSourceFile(object):
         self._time = None
         self._format = None
         self._edit = False
+        self._region_name = None
         self._loaded = False
         if fileName is not None:
             self._fileName = fileName
@@ -55,11 +56,20 @@ class ArgonModelSourceFile(object):
         #        #can't set per-resource file format
         #        #streamInfo.setResourceFileFormat(resource, StreaminformationRegion.FILE_FORMAT_EX)
 
+    def unloaded(self):
+        self._loaded = False
+
     def getFileName(self):
         return self._fileName
 
     def setFileName(self, fileName):
         self._fileName = fileName
+
+    def getRegionName(self):
+        return self._region_name
+
+    def setRegionName(self, region_name):
+        self._region_name = region_name
 
     def getTime(self):
         return self._time
@@ -94,11 +104,15 @@ class ArgonModelSourceFile(object):
             self._format = dictInput["Format"]
         if "Edit" in dictInput:
             self._edit = dictInput["Edit"]
+        if "RegionName" in dictInput:
+            self._region_name = dictInput["RegionName"]
 
     def serialize(self, basePath=None):
         dictOutput = {}
         dictOutput["Type"] = self.getType()
         dictOutput["FileName"] = fileNameToRelativePath(self._fileName, basePath)
+        if self._region_name is not None:
+            dictOutput["RegionName"] = self._region_name
         if self._time is not None:
             dictOutput["Time"] = self._time
         if self._edit:

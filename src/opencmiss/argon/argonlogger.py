@@ -25,7 +25,7 @@ except ImportError:
 
 from opencmiss.zinc.logger import Logger
 
-ENABLE_STD_STREAM_CAPTURE = HAVE_PYSIDE2
+ENABLE_STD_STREAM_CAPTURE = False
 
 
 if HAVE_PYSIDE2:
@@ -117,9 +117,17 @@ class ArgonLogger(object):
 
     @staticmethod
     def getLogger():
-        if (not ArgonLogger._logger):
+        if not ArgonLogger._logger:
             ArgonLogger._logger = setup_custom_logger("Argon", ArgonLogger._callback)
         return ArgonLogger._logger
+
+    @staticmethod
+    def closeLogger():
+        if ArgonLogger._logger:
+            del ArgonLogger._logger
+            ArgonLogger._logger = None
+            sys.stdout = sys.__stdout__
+            sys.stderr = sys.__stderr__
 
     @staticmethod
     def writeErrorMessage(string):
