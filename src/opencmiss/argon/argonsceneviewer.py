@@ -72,7 +72,7 @@ class ArgonSceneviewer(object):
 
     def get_view_parameters(self):
         return {'farClippingPlane': self._far_clipping_plane, 'nearClippingPlane': self._near_clipping_plane, 'eyePosition': self._eye_position,
-                'lookAtPosition': self._lookat_position, 'upVector': self._up_vector}
+                'lookAtPosition': self._lookat_position, 'upVector': self._up_vector, 'viewAngle': self._view_angle}
 
     def deserialize(self, d):
         # d = json.loads(s)
