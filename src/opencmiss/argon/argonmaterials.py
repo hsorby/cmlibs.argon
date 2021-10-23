@@ -18,6 +18,7 @@ import json
 from opencmiss.zinc.status import OK as ZINC_OK
 from opencmiss.argon.argonerror import ArgonError
 
+
 class ArgonMaterials(object):
     """
     Manages and serializes Zinc Materials.

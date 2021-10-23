@@ -39,6 +39,41 @@ class ArgonSceneviewer(object):
         self._view_angle = default_view_angle
         self._zoom_rate = default_zoom_rate
 
+    def updateParameters(self, sceneviewer):
+        result, eye = sceneviewer.getEyePosition()
+        result, lookat = sceneviewer.getLookatPosition()
+        result, up_vector = sceneviewer.getUpVector()
+        near = sceneviewer.getNearClippingPlane()
+        far = sceneviewer.getFarClippingPlane()
+        result, colourRGB = sceneviewer.getBackgroundColourRGB()
+        antialiasValue = sceneviewer.getAntialiasSampling()
+        flag_is_two_sided = sceneviewer.isLightingTwoSided()
+        flag_perturb_lines = sceneviewer.getPerturbLinesFlag()
+        view_angle = sceneviewer.getViewAngle()
+
+        self._anti_alias_sampling = antialiasValue
+        self._background_colour_RGB = colourRGB
+        self._eye_position = eye
+        self._far_clipping_plane = far
+        self._lighting_local_viewer = default_lighting_local_viewer
+        self._lighting_two_sided = flag_is_two_sided
+        self._lookat_position = lookat
+        self._near_clipping_plane = near
+        self._perturb_lines_flag = flag_perturb_lines
+        self._project_mode = default_project_mode
+        self._scene = default_scene
+        self._scene_filter = default_scene_filter
+        self._translation_rate = default_translation_rate
+        self._transparency_mode = default_transparency_mode
+        self._tumble_rate = default_tumble_rate
+        self._up_vector = up_vector
+        self._view_angle = view_angle
+        self._zoom_rate = default_zoom_rate
+
+    def get_view_parameters(self):
+        return {'farClippingPlane': self._far_clipping_plane, 'nearClippingPlane': self._near_clipping_plane, 'eyePosition': self._eye_position,
+                'lookAtPosition': self._lookat_position, 'upVector': self._up_vector, 'viewAngle': self._view_angle}
+
     def deserialize(self, d):
         # d = json.loads(s)
         self._anti_alias_sampling = d["AntialiasSampling"] if "AntialiasSampling" in d else default_anti_alias_sampling

@@ -16,7 +16,7 @@
 import json
 
 from opencmiss.argon.argonsceneviewer import ArgonSceneviewer
-from opencmiss.argon.argonregion import ArgonRegion
+from opencmiss.argon.argonregion import ArgonRegion, REGION_PATH_SEPARATOR
 from opencmiss.argon.argonspectrums import ArgonSpectrums
 from opencmiss.argon.argonmaterials import ArgonMaterials
 from opencmiss.argon.argontessellations import ArgonTessellations
@@ -30,7 +30,8 @@ from opencmiss.zinc.material import Material
 
 class ArgonDocument(object):
 
-    def __init__(self):
+    def __init__(self, name="Argon"):
+        self._name = name
         self._zincContext = None
         self._rootRegion = None
         self._spectrums = None
@@ -38,8 +39,11 @@ class ArgonDocument(object):
         self._tessellations = None
         self._sceneviewer = None
 
+    def getName(self):
+        return self._zincContext.getName()
+
     def initialiseVisualisationContents(self):
-        self._zincContext = Context("Argon")
+        self._zincContext = Context(self._name)
 
         sceneviewermodule = self._zincContext.getSceneviewermodule()
         sceneviewermodule.setDefaultBackgroundColourRGB([1.0, 1.0, 1.0])
@@ -143,3 +147,21 @@ class ArgonDocument(object):
 
     def getSceneviewer(self):
         return self._sceneviewer
+
+    def findRegion(self, name):
+        if not name.endswith(REGION_PATH_SEPARATOR):
+            name += REGION_PATH_SEPARATOR
+        return _findSubRegion(self._rootRegion, name)
+
+
+def _findSubRegion(region, name):
+    region_path = region.getPath()
+    if name == region_path:
+        return region
+    elif name.startswith(region_path):
+        for child_index in range(region.getChildCount()):
+            result = _findSubRegion(region.getChild(child_index), name)
+            if result is not None:
+                return result
+
+    return None
