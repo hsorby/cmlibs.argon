@@ -13,6 +13,48 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
+from opencmiss.zinc.sceneviewer import Sceneviewer
+
+
+SceneviewerProjectionModeMap = {
+    Sceneviewer.PROJECTION_MODE_PARALLEL: "PARALLEL",
+    Sceneviewer.PROJECTION_MODE_PERSPECTIVE: "PERSPECTIVE"
+}
+
+
+def SceneviewerProjectionModeEnumFromString(projectionModeName: str):
+    for mode, name in SceneviewerProjectionModeMap.items():
+        if name == projectionModeName:
+            return mode
+    return Sceneviewer.PROJECTION_MODE_INVALID
+
+
+def SceneviewerProjectionModeEnumToString(projectionMode):
+    for mode, name in SceneviewerProjectionModeMap.items():
+        if mode == projectionMode:
+            return name
+    return None
+
+
+SceneviewerTransparencyModeMap = {
+    Sceneviewer.TRANSPARENCY_MODE_FAST: "FAST",
+    Sceneviewer.TRANSPARENCY_MODE_SLOW: "SLOW",
+    Sceneviewer.TRANSPARENCY_MODE_ORDER_INDEPENDENT: "ORDER_INDEPENDENT"
+}
+
+
+def SceneviewerTransparencyModeEnumFromString(transparencyModeName: str):
+    for mode, name in SceneviewerTransparencyModeMap.items():
+        if name == transparencyModeName:
+            return mode
+    return Sceneviewer.TRANSPARENCY_MODE_INVALID
+
+
+def SceneviewerTransparencyModeEnumToString(transparencyMode):
+    for mode, name in SceneviewerTransparencyModeMap.items():
+        if mode == transparencyMode:
+            return name
+    return None
 
 
 class ArgonSceneviewer(object):
@@ -29,11 +71,12 @@ class ArgonSceneviewer(object):
         self._lookat_position = default_lookat_position
         self._near_clipping_plane = default_near_clipping_plane
         self._perturb_lines_flag = default_perturb_lines_flag
-        self._project_mode = default_project_mode
+        self._projection_mode = default_projection_mode
         self._scene = default_scene
         self._scene_filter = default_scene_filter
         self._translation_rate = default_translation_rate
         self._transparency_mode = default_transparency_mode
+        self._transparency_layers = default_transparency_layers
         self._tumble_rate = default_tumble_rate
         self._up_vector = default_up_vector
         self._view_angle = default_view_angle
@@ -47,6 +90,9 @@ class ArgonSceneviewer(object):
         far = sceneviewer.getFarClippingPlane()
         result, colourRGB = sceneviewer.getBackgroundColourRGB()
         antialiasValue = sceneviewer.getAntialiasSampling()
+        projection_mode = sceneviewer.getProjectionMode()
+        transparency_mode = sceneviewer.getTransparencyMode()
+        transparency_layers = sceneviewer.getTransparencyLayers()
         flag_is_two_sided = sceneviewer.isLightingTwoSided()
         flag_perturb_lines = sceneviewer.getPerturbLinesFlag()
         view_angle = sceneviewer.getViewAngle()
@@ -60,36 +106,44 @@ class ArgonSceneviewer(object):
         self._lookat_position = lookat
         self._near_clipping_plane = near
         self._perturb_lines_flag = flag_perturb_lines
-        self._project_mode = default_project_mode
+        self._projection_mode = projection_mode
         self._scene = default_scene
         self._scene_filter = default_scene_filter
         self._translation_rate = default_translation_rate
-        self._transparency_mode = default_transparency_mode
+        self._transparency_mode = transparency_mode
+        self._transparency_layers = transparency_layers
         self._tumble_rate = default_tumble_rate
         self._up_vector = up_vector
         self._view_angle = view_angle
         self._zoom_rate = default_zoom_rate
 
     def get_view_parameters(self):
-        return {'farClippingPlane': self._far_clipping_plane, 'nearClippingPlane': self._near_clipping_plane, 'eyePosition': self._eye_position,
-                'lookAtPosition': self._lookat_position, 'upVector': self._up_vector, 'viewAngle': self._view_angle}
+        return {'farClippingPlane': self._far_clipping_plane, 'nearClippingPlane': self._near_clipping_plane,
+                'eyePosition': self._eye_position, 'lookAtPosition': self._lookat_position, 'upVector': self._up_vector,
+                'viewAngle': self._view_angle}
 
     def deserialize(self, d):
         # d = json.loads(s)
         self._anti_alias_sampling = d["AntialiasSampling"] if "AntialiasSampling" in d else default_anti_alias_sampling
-        self._background_colour_RGB = d["BackgroundColourRGB"] if "BackgroundColourRGB" in d else default_background_colour_RGB
+        self._background_colour_RGB = d["BackgroundColourRGB"] if "BackgroundColourRGB" in d \
+            else default_background_colour_RGB
         self._eye_position = d["EyePosition"] if "EyePosition" in d else default_eye_position
         self._far_clipping_plane = d["FarClippingPlane"] if "FarClippingPlane" in d else default_far_clipping_plane
-        self._lighting_local_viewer = d["LightingLocalViewer"] if "LightingLocalViewer" in d else default_lighting_local_viewer
+        self._lighting_local_viewer = d["LightingLocalViewer"] if "LightingLocalViewer" in d \
+            else default_lighting_local_viewer
         self._lighting_two_sided = d["LightingTwoSided"] if "LightingTwoSided" in d else default_lighting_two_sided
         self._lookat_position = d["LookatPosition"] if "LookatPosition" in d else default_lookat_position
         self._near_clipping_plane = d["NearClippingPlane"] if "NearClippingPlane" in d else default_near_clipping_plane
         self._perturb_lines_flag = d["PerturbLinesFlag"] if "PerturbLinesFlag" in d else default_perturb_lines_flag
-        self._project_mode = d["ProjectionMode"] if "ProjectionMode" in d else default_project_mode
+        self._projection_mode = SceneviewerProjectionModeEnumFromString(d["ProjectionMode"])  if "ProjectionMode" in d \
+            else default_projection_mode
         self._scene = d["Scene"] if "Scene" in d else default_scene
         self._scene_filter = d["Scenefilter"] if "Scenefilter" in d else default_scene_filter
         self._translation_rate = d["TranslationRate"] if "TranslationRate" in d else default_translation_rate
-        self._transparency_mode = d["TransparencyMode"] if "TransparencyMode" in d else default_transparency_mode
+        self._transparency_mode = SceneviewerTransparencyModeEnumFromString(d["TransparencyMode"]) \
+            if "TransparencyMode" in d else default_transparency_mode
+        self._transparency_layers = d["TransparencyLayers"] if "TransparencyLayers" in d \
+            else default_transparency_layers
         self._tumble_rate = d["TumbleRate"] if "TumbleRate" in d else default_tumble_rate
         self._up_vector = d["UpVector"] if "UpVector" in d else default_up_vector
         self._view_angle = d["ViewAngle"] if "ViewAngle" in d else default_view_angle
@@ -106,11 +160,12 @@ class ArgonSceneviewer(object):
         d["LookatPosition"] = self._lookat_position
         d["NearClippingPlane"] = self._near_clipping_plane
         d["PerturbLinesFlag"] = self._perturb_lines_flag
-        d["ProjectionMode"] = self._project_mode
+        d["ProjectionMode"] = SceneviewerProjectionModeEnumToString(self._projection_mode)
         d["Scene"] = self._scene
         d["Scenefilter"] = self._scene_filter
         d["TranslationRate"] = self._translation_rate
-        d["TransparencyMode"] = self._transparency_mode
+        d["TransparencyMode"] = SceneviewerTransparencyModeEnumToString(self._transparency_mode)
+        d["TransparencyLayers"] = self._transparency_layers
         d["TumbleRate"] = self._tumble_rate
         d["UpVector"] = self._up_vector
         d["ViewAngle"] = self._view_angle
@@ -127,11 +182,12 @@ default_lighting_two_sided = True
 default_lookat_position = [0, 0, 0]
 default_near_clipping_plane = 0.1942759914453282
 default_perturb_lines_flag = False
-default_project_mode = "PERSPECTIVE"
+default_projection_mode = Sceneviewer.PROJECTION_MODE_PERSPECTIVE
 default_scene = "/"
 default_scene_filter = "default"
 default_translation_rate = 1
-default_transparency_mode = "FAST"
+default_transparency_mode = Sceneviewer.TRANSPARENCY_MODE_FAST
+default_transparency_layers = 1
 default_tumble_rate = 1.5
 default_up_vector = [0, 1, 0]
 default_view_angle = 0.6981317007977318
