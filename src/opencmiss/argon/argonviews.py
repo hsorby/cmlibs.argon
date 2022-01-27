@@ -22,47 +22,100 @@ from opencmiss.argon.argonsceneviewer import ArgonSceneviewer
 
 class ArgonViews(object):
     """
-    Manages and serializes Zinc Materials.
+    Manages and serializes ArgonViews.
     """
 
     def __init__(self, zincContext):
         self._zincContext = zincContext
-        self._views = None
+        self._views = []
         self._activeView = None
-        self._sceneviewer = None
-        self._sceneviewers = []
-        
+
     def getZincContext(self):
         return self._zincContext
 
     def deserialize(self, d):
-        # d = json.loads(s)
         self._activeView = d["ActiveView"] if "ActiveView" in d else None
-        self._views = d["Views"] if "Views" in d else None
+        if  "Views" in d:
+            for i in d["Views"]:
+                view = ArgonView(self._zincContext)
+                view.deserialize(i)
+                self._views.append(view)
+        
+    def serialize(self):
+        dictOutput = {}
+        if self._activeView:
+            dictOutput["ActiveView"] = self._activeView
+        dictOutput["Views"] = []
+        if self._views:
+            tmpOutput = []
+            for view in self._views:
+                tmpOutput.append(view.serialize())
+            dictOutput["Views"] = tmpOutput
+        return dictOutput
+
+    def getActiveView(self):
+        return self._activeView
+
+    def getViews(self):
+        return self._views
+
+    def updateSceneviewers(self, sceneviewerwidget_list):
+        for sceneviewerwidget in sceneviewerwidget_list:
+            for view in self._views:
+                sceneviewer = sceneviewerwidget.getSceneviewer()
+                region = sceneviewer.getScene().getRegion().getName()
+                view.updateSceneviewer(region, sceneviewer)
+
+class ArgonView(object):
+    """
+    Manages and serializes Single View.
+    """
+
+    def __init__(self, zincContext):
+        self._zincContext = zincContext
+        self._name = None
+        self._gridSpecification = None
+        self._scenes = []
+
+    def getZincContext(self):
+        return self._zincContext
+
+    def deserialize(self, d):
+        self._name = d["Name"] if "Name" in d else None
+        self._gridSpecification = d["GridSpecification"] if "GridSpecification" in d else None
+        if "Scenes" in d:
+            for s in d["Scenes"]:
+                if "Sceneviewer" in s:
+                    sceneviewer = ArgonSceneviewer(self._zincContext)
+                    s["Sceneviewer"]["Scene"] = s["Path"]
+                    sceneviewer.deserialize(s["Sceneviewer"])
+                    s["Sceneviewer"] = sceneviewer
+                self._scenes.append(s)
         
     def serialize(self):
         dictOutput = {}
         if self._name:
-            dictOutput["ActiveView"] = self._name
-        dictOutput["Views"] = {}
-        if self._sceneviewers:
-            tmpOutput = []
-            for sceneviewer in self._sceneviewers:
-                tmpOutput.append(sceneviewer.serialize())
-            dictOutput["Views"] = tmpOutput
-        if not dictOutput["Model"]:
-            dictOutput.pop("Model")
-        if self._zincRegion:
-            fieldmodule = self._zincRegion.getFieldmodule()
-            fieldmoduleDescription = fieldmodule.writeDescription()
-            dictOutput["Fieldmodule"] = json.loads(fieldmoduleDescription)
-
-            scene = self._zincRegion.getScene()
-            sceneDescription = scene.writeDescription()
-            dictOutput["Scene"] = json.loads(sceneDescription)
-        if self._children:
-            tmpOutput = []
-            for child in self._children:
-                tmpOutput.append(child.serialize(basePath))
-            dictOutput["ChildRegions"] = tmpOutput
+            dictOutput["Name"] = self._name
+        if self._gridSpecification:
+            dictOutput["GridSpecification"] = self._gridSpecification
+        dictOutput["Scenes"] = []
+        if self._scenes:
+            for scene in self._scenes:
+                tmpOutput = scene
+                tmpOutput["Sceneviewer"] = scene["Sceneviewer"].serialize()
+                print("serialize", scene["Path"], scene["Sceneviewer"]["EyePosition"])
+                dictOutput["Scenes"].append(tmpOutput)
         return dictOutput
+
+    def getName(self):
+        return self._name
+
+    def getScenes(self):
+        return self._scenes
+
+    def updateSceneviewer(self, rigon, sceneviewer):
+        for scene in self._scenes:
+            print("Update", scene["Path"], rigon)
+            if scene["Path"] == rigon:
+                scene["Sceneviewer"].updateParameters(sceneviewer)
+                print("Update", scene["Path"], scene["Sceneviewer"]._eye_position)

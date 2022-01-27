@@ -96,6 +96,7 @@ class ArgonSceneviewer(object):
         flag_is_two_sided = sceneviewer.isLightingTwoSided()
         flag_perturb_lines = sceneviewer.getPerturbLinesFlag()
         view_angle = sceneviewer.getViewAngle()
+        scene_region = sceneviewer.getScene().getRegion().getName()
 
         self._anti_alias_sampling = antialiasValue
         self._background_colour_RGB = colourRGB
@@ -107,7 +108,7 @@ class ArgonSceneviewer(object):
         self._near_clipping_plane = near
         self._perturb_lines_flag = flag_perturb_lines
         self._projection_mode = projection_mode
-        self._scene = default_scene
+        self._scene = scene_region
         self._scene_filter = default_scene_filter
         self._translation_rate = default_translation_rate
         self._transparency_mode = transparency_mode
