@@ -18,7 +18,7 @@ import json
 from opencmiss.argon.argonregion import ArgonRegion, REGION_PATH_SEPARATOR
 from opencmiss.argon.argonspectrums import ArgonSpectrums
 from opencmiss.argon.argonmaterials import ArgonMaterials
-from opencmiss.argon.argonviews import ArgonViews
+from opencmiss.argon.argonviews import ArgonViewManager
 from opencmiss.argon.argontessellations import ArgonTessellations
 from opencmiss.argon.argonerror import ArgonError
 from opencmiss.argon.argonlogger import ArgonLogger
@@ -36,7 +36,7 @@ class ArgonDocument(object):
         self._rootRegion = None
         self._spectrums = None
         self._materials = None
-        self._views = None
+        self._view_manager = None
         self._tessellations = None
 
     def getName(self):
@@ -70,7 +70,7 @@ class ArgonDocument(object):
         self._materials = materialmodule
         self._spectrums = ArgonSpectrums(self._zincContext)
         self._materials = ArgonMaterials(self._zincContext)
-        self._views = ArgonViews(self._zincContext)
+        self._view_manager = ArgonViewManager(self._zincContext)
         self._tessellations = ArgonTessellations(self._zincContext)
         ArgonLogger.setZincContext(self._zincContext)
 
@@ -82,7 +82,7 @@ class ArgonDocument(object):
         del self._tessellations
         del self._spectrums
         del self._materials
-        del self._views
+        del self._view_manager
         del self._rootRegion
         del self._zincContext
 
@@ -116,7 +116,7 @@ class ArgonDocument(object):
         if "Materials" in d:
             self._materials.deserialize(d["Materials"])
         if "Views" in d:
-            self._views.deserialize(d["Views"])
+            self._view_manager.deserialize(d["Views"])
         self._rootRegion.deserialize(d["RootRegion"])
 
     def serialize(self, basePath=None):
@@ -124,7 +124,7 @@ class ArgonDocument(object):
             "OpenCMISS-Argon Version": mainsettings.VERSION_LIST,
             "Spectrums": self._spectrums.serialize(),
             "Materials": self._materials.serialize(),
-            "Views": self._views.serialize(),
+            "Views": self._view_manager.serialize(),
             "Tessellations": self._tessellations.serialize(),
             "RootRegion": self._rootRegion.serialize(basePath)
         }
@@ -142,8 +142,8 @@ class ArgonDocument(object):
     def getMaterials(self):
         return self._materials
 
-    def getArgonViews(self):
-        return self._views
+    def getViewManager(self):
+        return self._view_manager
 
     def getTessellations(self):
         return self._tessellations

@@ -82,6 +82,26 @@ class ArgonSceneviewer(object):
         self._view_angle = default_view_angle
         self._zoom_rate = default_zoom_rate
 
+    def applyParameters(self, sceneviewer):
+        sceneviewer.setEyePosition(self._eye_position)
+        sceneviewer.setLookatPosition(self._lookat_position)
+        sceneviewer.setUpVector(self._up_vector)
+        sceneviewer.setNearClippingPlane(self._near_clipping_plane)
+        sceneviewer.setFarClippingPlane(self._far_clipping_plane)
+        sceneviewer.setBackgroundColourRGB(self._background_colour_RGB)
+        sceneviewer.setAntialiasSampling(self._anti_alias_sampling)
+        sceneviewer.setProjectionMode(self._projection_mode)
+        sceneviewer.setTransparencyMode(self._transparency_mode)
+        sceneviewer.setTransparencyLayers(self._transparency_layers)
+        sceneviewer.setLightingTwoSided(self._lighting_two_sided)
+        sceneviewer.setPerturbLinesFlag(self._perturb_lines_flag)
+        sceneviewer.setViewAngle(self._view_angle)
+        root_region = self._zinc_context.getDefaultRegion()
+        if self._scene is not None:
+            scene_region = root_region.findChildByName(self._scene)
+            if scene_region.isValid():
+                sceneviewer.setScene(scene_region.getScene())
+
     def updateParameters(self, sceneviewer):
         result, eye = sceneviewer.getEyePosition()
         result, lookat = sceneviewer.getLookatPosition()
