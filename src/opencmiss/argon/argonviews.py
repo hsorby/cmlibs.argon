@@ -197,10 +197,11 @@ class ArgonView(object):
         dictOutput["Scenes"] = []
         if self._scenes:
             for scene in self._scenes:
-                tmp_output = scene
-                tmp_output["Row"] = scene["Row"]
-                tmp_output["Col"] = scene["Col"]
-                tmp_output["Sceneviewer"] = scene["Sceneviewer"].serialize()
+                tmp_output = {
+                    "Row": scene["Row"],
+                    "Col": scene["Col"],
+                    "Sceneviewer": scene["Sceneviewer"].serialize(),
+                }
                 dictOutput["Scenes"].append(tmp_output)
         return dictOutput
 

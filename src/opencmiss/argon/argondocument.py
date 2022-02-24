@@ -15,6 +15,9 @@
 """
 import json
 
+from packaging import version
+
+from opencmiss.argon import __version__
 from opencmiss.argon.argonregion import ArgonRegion, REGION_PATH_SEPARATOR
 from opencmiss.argon.argonspectrums import ArgonSpectrums
 from opencmiss.argon.argonmaterials import ArgonMaterials
@@ -38,6 +41,10 @@ class ArgonDocument(object):
         self._materials = None
         self._view_manager = None
         self._tessellations = None
+
+    def checkVersion(minimum_required):
+        if version.parse(__version__) < version.parse(minimum_required):
+            raise SyntaxError("Argon document error", f"Argon document must be at least version '{minimum_required}'.")
 
     def getName(self):
         return self._zincContext.getName()
