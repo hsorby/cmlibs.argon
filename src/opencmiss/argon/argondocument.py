@@ -42,7 +42,7 @@ class ArgonDocument(object):
         self._view_manager = None
         self._tessellations = None
 
-    def checkVersion(minimum_required):
+    def checkVersion(self, minimum_required):
         if version.parse(__version__) < version.parse(minimum_required):
             raise SyntaxError("Argon document error", f"Argon document must be at least version '{minimum_required}'.")
 
