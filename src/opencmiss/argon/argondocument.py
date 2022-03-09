@@ -15,10 +15,13 @@
 """
 import json
 
-from opencmiss.argon.argonsceneviewer import ArgonSceneviewer
+from packaging import version
+
+from opencmiss.argon import __version__
 from opencmiss.argon.argonregion import ArgonRegion, REGION_PATH_SEPARATOR
 from opencmiss.argon.argonspectrums import ArgonSpectrums
 from opencmiss.argon.argonmaterials import ArgonMaterials
+from opencmiss.argon.argonviews import ArgonViewManager
 from opencmiss.argon.argontessellations import ArgonTessellations
 from opencmiss.argon.argonerror import ArgonError
 from opencmiss.argon.argonlogger import ArgonLogger
@@ -36,8 +39,12 @@ class ArgonDocument(object):
         self._rootRegion = None
         self._spectrums = None
         self._materials = None
+        self._view_manager = None
         self._tessellations = None
-        self._sceneviewer = None
+
+    def checkVersion(self, minimum_required):
+        if version.parse(__version__) < version.parse(minimum_required):
+            raise SyntaxError("Argon document error", f"Argon document must be at least version '{minimum_required}'.")
 
     def getName(self):
         return self._zincContext.getName()
@@ -70,8 +77,8 @@ class ArgonDocument(object):
         self._materials = materialmodule
         self._spectrums = ArgonSpectrums(self._zincContext)
         self._materials = ArgonMaterials(self._zincContext)
+        self._view_manager = ArgonViewManager(self._zincContext)
         self._tessellations = ArgonTessellations(self._zincContext)
-        self._sceneviewer = ArgonSceneviewer(self._zincContext)
         ArgonLogger.setZincContext(self._zincContext)
 
     def freeVisualisationContents(self):
@@ -79,10 +86,10 @@ class ArgonDocument(object):
         Deletes subobjects of document to help free memory held by Zinc objects earlier.
         """
         self._rootRegion.freeContents()
-        del self._sceneviewer
         del self._tessellations
         del self._spectrums
         del self._materials
+        del self._view_manager
         del self._rootRegion
         del self._zincContext
 
@@ -113,10 +120,10 @@ class ArgonDocument(object):
             self._tessellations.deserialize(d["Tessellations"])
         if "Spectrums" in d:
             self._spectrums.deserialize(d["Spectrums"])
-        if "Sceneviewer" in d:
-            self._sceneviewer.deserialize(d["Sceneviewer"])
         if "Materials" in d:
             self._materials.deserialize(d["Materials"])
+        if "Views" in d:
+            self._view_manager.deserialize(d["Views"])
         self._rootRegion.deserialize(d["RootRegion"])
 
     def serialize(self, basePath=None):
@@ -124,9 +131,9 @@ class ArgonDocument(object):
             "OpenCMISS-Argon Version": mainsettings.VERSION_LIST,
             "Spectrums": self._spectrums.serialize(),
             "Materials": self._materials.serialize(),
+            "Views": self._view_manager.serialize(),
             "Tessellations": self._tessellations.serialize(),
-            "RootRegion": self._rootRegion.serialize(basePath),
-            "Sceneviewer": self._sceneviewer.serialize()
+            "RootRegion": self._rootRegion.serialize(basePath)
         }
         return json.dumps(dictOutput, default=lambda o: o.__dict__, sort_keys=True, indent=2)
 
@@ -142,11 +149,11 @@ class ArgonDocument(object):
     def getMaterials(self):
         return self._materials
 
+    def getViewManager(self):
+        return self._view_manager
+
     def getTessellations(self):
         return self._tessellations
-
-    def getSceneviewer(self):
-        return self._sceneviewer
 
     def findRegion(self, name):
         if not name.endswith(REGION_PATH_SEPARATOR):

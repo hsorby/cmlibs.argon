@@ -32,7 +32,7 @@ readme.append('')
 
 software_licence = readfile("LICENSE")
 
-requires = ['opencmiss.zinc']
+requires = ['opencmiss.zinc', 'packaging']
 
 setup(
     name='opencmiss.argon',
