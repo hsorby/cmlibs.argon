@@ -44,7 +44,7 @@ class ArgonDocument(object):
 
     def checkVersion(self, minimum_required):
         if version.parse(__version__) < version.parse(minimum_required):
-            raise SyntaxError("Argon document error", f"Argon document must be at least version '{minimum_required}'.")
+            raise SyntaxError(f"Argon document error - Argon document must be at least version '{minimum_required}'.")
 
     def getName(self):
         return self._zincContext.getName()
