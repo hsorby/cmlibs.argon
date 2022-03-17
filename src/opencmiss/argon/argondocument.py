@@ -110,9 +110,12 @@ class ArgonDocument(object):
         d = json.loads(state)
         if not (("OpenCMISS-Argon Version" in d) and ("RootRegion" in d)):
             raise ArgonError("Invalid Argon document")
-        argon_version = d["OpenCMISS-Argon Version"]
-        if argon_version > mainsettings.VERSION_LIST:
-            raise ArgonError("Document version is greater than this version of Argon (" + mainsettings.VERSION_STRING + "). Please update your Argon application.")
+
+        document_version = d["OpenCMISS-Argon Version"]
+        document_version_string = ".".join(document_version)
+        if version.parse(document_version_string) > version.parse(mainsettings.VERSION_STRING):
+            raise ArgonError(f"Document version '{document_version_string}' is greater than this version of Argon ({mainsettings.VERSION_STRING})."
+                             f" Please update your Argon application.")
         # Ideally would enclose following in:
         # try: zincRegion.beginHierarchicalChange() ... finally: zincRegion.endHierarchicalChange()
         # Can't do this due to Zinc issue 3924 which prevents computed field wrappers being created, so graphics can't find fields
