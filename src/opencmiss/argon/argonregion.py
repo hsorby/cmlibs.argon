@@ -114,12 +114,34 @@ class ArgonRegion(object):
         self._loadModelSourceStreams(streamInfo)
         newRegionCount = self._discoverNewZincRegions()
         self._informRegionChange(newRegionCount > 0)
+        self._updateTimekeeper()
 
     def _loadModelSources(self):
         streamInfo = self._zincRegion.createStreaminformationRegion()
         for modelSource in self._modelSources:
             modelSource.addToZincStreaminformationRegion(streamInfo)
         self._loadModelSourceStreams(streamInfo)
+        self._updateTimekeeper()
+
+    def _updateTimekeeper(self):
+        current_region = self._zincRegion
+        parent_region = current_region.getParent()
+        while parent_region.isValid():
+            current_region = parent_region
+            parent_region = current_region.getParent()
+
+        root_region = current_region
+        scene = root_region.getScene()
+        time_keeper_module = scene.getTimekeepermodule()
+        time_keeper = time_keeper_module.getDefaultTimekeeper()
+        result, minimum_time, maximum_time = root_region.getTimeRange()
+        if result == ZINC_OK:
+            current_minimum_time = time_keeper.getMinimumTime()
+            if current_minimum_time != minimum_time:
+                time_keeper.setMinimumTime(minimum_time)
+            current_maximum_time = time_keeper.getMaximumTime()
+            if current_maximum_time != maximum_time:
+                time_keeper.setMaximumTime(maximum_time)
 
     def _reload(self):
         """

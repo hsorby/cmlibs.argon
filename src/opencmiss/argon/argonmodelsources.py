@@ -50,7 +50,10 @@ class ArgonModelSourceFile(object):
         resource = streamInfo.createStreamresourceFile(self._fileName)
         self._loaded = True
         if self._time is not None:
-            streamInfo.setResourceAttributeReal(resource, StreaminformationRegion.ATTRIBUTE_TIME, self._time)
+            time = self._time
+            if not isinstance(self._time, float):
+                time = float(self._time)
+            streamInfo.setResourceAttributeReal(resource, StreaminformationRegion.ATTRIBUTE_TIME, time)
         # if self._format is not None:
         #    if format == "EX":
         #        #can't set per-resource file format

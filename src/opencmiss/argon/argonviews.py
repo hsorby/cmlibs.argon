@@ -27,42 +27,42 @@ LAYOUT1 = {
 }
 
 LAYOUT2x2GRID = {
-    "Name":"Layout2x2Grid",
-    "GridSpecification":{
-       "NumRows":2,
-       "NumCols":2,
-       "Left":None,
-       "Bottom":None,
-       "Right":None,
-       "Top":None,
-       "WidthSpace":None,
-       "HeightSpace":None,
-       "WidthRatios":None,
-       "HeightRatios":None
+    "Name": "Layout2x2Grid",
+    "GridSpecification": {
+        "NumRows": 2,
+        "NumCols": 2,
+        "Left": None,
+        "Bottom": None,
+        "Right": None,
+        "Top": None,
+        "WidthSpace": None,
+        "HeightSpace": None,
+        "WidthRatios": None,
+        "HeightRatios": None
     },
-    "Scenes":[
-       {
-          "Row":1,
-          "Col":1,
-          "Sceneviewer":{},
-       },
-       {
-          "Row":0,
-          "Col":1,
-          "Sceneviewer":{},
-       },
-       {
-          "Row":1,
-          "Col":0,
-          "Sceneviewer":{},
-       },
-       {
-          "Row":0,
-          "Col":0,
-          "Sceneviewer":{},
-       }
+    "Scenes": [
+        {
+            "Row": 1,
+            "Col": 1,
+            "Sceneviewer": {},
+        },
+        {
+            "Row": 0,
+            "Col": 1,
+            "Sceneviewer": {},
+        },
+        {
+            "Row": 1,
+            "Col": 0,
+            "Sceneviewer": {},
+        },
+        {
+            "Row": 0,
+            "Col": 0,
+            "Sceneviewer": {},
+        }
     ]
- }
+}
 
 LAYOUTS = [
     LAYOUT1,
@@ -90,7 +90,7 @@ class ArgonViewManager(object):
                 view = ArgonView(self._zincContext)
                 view.deserialize(i)
                 self._views.append(view)
-        
+
     def serialize(self):
         dictOutput = {}
         if self._activeView:
@@ -115,10 +115,13 @@ class ArgonViewManager(object):
     def getViews(self):
         return self._views
 
+    def viewCount(self):
+        return len(self._views)
+
     def setViews(self, views):
         self._views = views
 
-    def addView(self, view_type, name=None):
+    def addViewByType(self, view_type, name=None):
         for layout in LAYOUTS:
             if layout["Name"] == view_type:
                 new_view = ArgonView(self._zincContext)
@@ -129,7 +132,7 @@ class ArgonViewManager(object):
                     name = self._next_available_name(name)
                 new_view.setName(name)
                 self._views.append(new_view)
-                break
+                return new_view
 
     def removeView(self, identifier):
         del self._views[identifier]
@@ -142,7 +145,6 @@ class ArgonViewManager(object):
         return False
 
     def _next_available_name(self, name_stem):
-        next_name = name_stem
         iteration = 1
         while self._name_in_use(f"{name_stem}_{iteration}"):
             iteration += 1
@@ -187,7 +189,7 @@ class ArgonView(object):
                     scene["Sceneviewer"] = sceneviewer
 
                 self._scenes.append(scene)
-        
+
     def serialize(self):
         dictOutput = {}
         if self._name:
