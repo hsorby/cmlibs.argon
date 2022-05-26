@@ -14,6 +14,7 @@ Install
 
 Requirements
 ^^^^^^^^^^^^
+
 python >= 3.6
 
 pip install
@@ -36,6 +37,10 @@ Project Structure
 
 Classes
 -------
+
+.. autoclass:: opencmiss.argon.argondocument.ArgonDocument
+   :members:
+
 `class ArgonDocument`_
 
 `class ArgonRegion`_
