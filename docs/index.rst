@@ -17,6 +17,8 @@ Requirements
 
 python >= 3.6
 
+opencmiss.zinc >= 3.6
+
 pip install
 ^^^^^^^^^^^
 
@@ -27,41 +29,67 @@ OpenCMISS-Argon can be installed from PyPi.org with the following command::
 Usage
 -----
 
-OpenCMISS-Argon can be imported by following command::
+These modules are surfaced under the namespace package *opencmiss* within the *argon* package.
+To use these modules the following import statement can be used::
 
   import opencmiss.argon
-
-
-Project Structure
------------------
 
 Classes
 -------
 
+`ArgonDocument Class`_
+^^^^^^^^^^^^^^^^^^^^^^
+
 .. autoclass:: opencmiss.argon.argondocument.ArgonDocument
    :members:
 
-`class ArgonDocument`_
+`ArgonRegion Class`_
+^^^^^^^^^^^^^^^^^^^^
 
-`class ArgonRegion`_
+.. autoclass:: opencmiss.argon.argonregion.ArgonRegion
+   :members:
 
-`class ArgonSpectrums`_
+`ArgonSpectrums Class`_
+^^^^^^^^^^^^^^^^^^^^^^^
 
-`class ArgonMaterials`_
+.. autoclass:: opencmiss.argon.argonspectrums.ArgonSpectrums
+   :members:
 
-`class ArgonView`_
+`ArgonMaterials Class`_
+^^^^^^^^^^^^^^^^^^^^^^^
 
-`class ArgonTessellations`_
+.. autoclass:: opencmiss.argon.argonmaterials.ArgonMaterials
+   :members:
 
-`class ArgonError`_
+`ArgonView Class`_
+^^^^^^^^^^^^^^^^^^
 
-`class ArgonLogger`_
+.. autoclass:: opencmiss.argon.argonviews.ArgonView
+   :members:
 
-.. _class ArgonDocument: classargondocument.rst
-.. _class ArgonRegion: classargonregion.rst
-.. _class ArgonSpectrums: classargonspectrums.rst
-.. _class ArgonMaterials: classargonmaterials.rst
-.. _class ArgonView: classargonview.rst
-.. _class ArgonTessellations: classargontessellations.rst
-.. _class ArgonError: classargonerror.rst
-.. _class ArgonLogger: classargonlogger.rst
+`ArgonTessellations Class`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: opencmiss.argon.argontessellations.ArgonTessellations
+   :members:
+
+`ArgonError Class`_
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: opencmiss.argon.argonerror.ArgonError
+   :members:
+
+`ArgonLogger Class`_
+^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: opencmiss.argon.argonlogger.ArgonLogger
+   :members:
+
+.. _ArgonDocument Class: classargondocument.rst
+.. _ArgonRegion Class: classargonregion.rst
+.. _ArgonSpectrums Class: classargonspectrums.rst
+.. _ArgonMaterials Class: classargonmaterials.rst
+.. _ArgonView Class: classargonview.rst
+.. _ArgonTessellations Class: classargontessellations.rst
+.. _ArgonError Class: classargonerror.rst
+.. _ArgonLogger Class: classargonlogger.rst
