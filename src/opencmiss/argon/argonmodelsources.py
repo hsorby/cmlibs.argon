@@ -39,9 +39,19 @@ class ArgonModelSourceFile(object):
             self._deserialize(dictInput)
 
     def getType(self):
+        """
+        Returns Argon Model Source File type "FILE".
+
+        :return: string
+        """
         return "FILE"
 
     def addToZincStreaminformationRegion(self, streamInfo):
+        """
+        Add to Zinc Stream information Region.
+
+        :param streamInfo: streamInfo
+        """
         if self._edit:
             return
         if not self._fileName:
@@ -60,27 +70,65 @@ class ArgonModelSourceFile(object):
         #        #streamInfo.setResourceFileFormat(resource, StreaminformationRegion.FILE_FORMAT_EX)
 
     def unloaded(self):
+        """
+        Set Argon model sources unloaded.
+        """
         self._loaded = False
 
     def getFileName(self):
+        """
+        Returns the file name of current Argon model sources.
+
+        :return: string
+        """
         return self._fileName
 
     def setFileName(self, fileName):
+        """
+        Change file name.
+
+        :param fileName: string
+        """
         self._fileName = fileName
 
     def getRegionName(self):
+        """
+        Returns the region name of current Argon model sources.
+
+        :return: string
+        """
         return self._region_name
 
     def setRegionName(self, region_name):
+        """
+        Change region name.
+
+        :param region_name: string
+        """
         self._region_name = region_name
 
     def getTime(self):
+        """
+        Returns the time of current Argon model sources.
+
+        :return: string
+        """
         return self._time
 
     def setTime(self, time):
+        """
+        Change time.
+
+        :param time: string
+        """
         self._time = time
 
     def getDisplayName(self):
+        """
+        Returns the display name of current Argon model sources.
+
+        :return: string
+        """
         editText = "[To Apply] " if self._edit else ""
         if self._time is None:
             timeText = ""
@@ -90,12 +138,27 @@ class ArgonModelSourceFile(object):
         return editText + "File " + displayFileName + timeText
 
     def isLoaded(self):
+        """
+        Returns the load state of current Argon model sources.
+
+        :return: boolean
+        """
         return self._loaded
 
     def isEdit(self):
+        """
+        Returns the edit state of current Argon model sources.
+
+        :return: boolean
+        """
         return self._edit
 
     def setEdit(self, edit):
+        """
+        Change edit state for Argon model sources.
+
+        :param edit: boolean
+        """
         self._edit = edit
 
     def _deserialize(self, dictInput):
@@ -111,6 +174,12 @@ class ArgonModelSourceFile(object):
             self._region_name = dictInput["RegionName"]
 
     def serialize(self, basePath=None):
+        """
+        Write the JSON file describing the Argon model sources, which can be used to store the current Argon model sources settings.
+
+        :param basePath: The base path of JSON file, default is None.
+        :return: Python JSON object containing the JSON description of Argon model sources object.
+        """
         dictOutput = {}
         dictOutput["Type"] = self.getType()
         dictOutput["FileName"] = fileNameToRelativePath(self._fileName, basePath)

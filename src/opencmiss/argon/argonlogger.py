@@ -113,16 +113,29 @@ class ArgonLogger(object):
 
     @staticmethod
     def setCallback(callback):
+        """
+        Set Argon Logger callback.
+        
+        :param callback: Callback function.
+        """
         ArgonLogger._callback = callback
 
     @staticmethod
     def getLogger():
+        """
+        Return the Argon Logger.
+        
+        :return: ArgonLogger
+        """
         if not ArgonLogger._logger:
             ArgonLogger._logger = setup_custom_logger("Argon", ArgonLogger._callback)
         return ArgonLogger._logger
 
     @staticmethod
     def closeLogger():
+        """
+        Deletes subobjects of Argon logger to help free memory held by Argon objects earlier.
+        """
         if ArgonLogger._logger:
             del ArgonLogger._logger
             ArgonLogger._logger = None
@@ -131,18 +144,38 @@ class ArgonLogger(object):
 
     @staticmethod
     def writeErrorMessage(string):
+        """
+        Write Argon Logger Error message.
+        
+        :param string: string
+        """
         ArgonLogger.getLogger().error(string)
 
     @staticmethod
     def writeWarningMessage(string):
+        """
+        Write Argon Logger Warning message.
+        
+        :param string: string
+        """
         ArgonLogger.getLogger().warning(string)
 
     @staticmethod
     def writeInformationMessage(string):
+        """
+        Write Argon Logger Information message.
+        
+        :param string: string
+        """
         ArgonLogger.getLogger().info(string)
 
     @staticmethod
     def loggerCallback(event):
+        """
+        Argon Logger Callback, wirte different type of message based on the input event flags.
+        
+        :param event: event
+        """
         if event.getChangeFlags() == Logger.CHANGE_FLAG_NEW_MESSAGE:
             text = event.getMessageText()
             if event.getMessageType() == Logger.MESSAGE_TYPE_ERROR:
@@ -153,7 +186,12 @@ class ArgonLogger(object):
                 ArgonLogger.writeInformationMessage(text)
 
     @staticmethod
-    def setZincContext(zincContext):
+    def setZincContext(zincContext):        
+        """
+        Set the underlying Zinc context for the Argon Logger.
+
+        :param zincContext: opencmiss.zinc.context.Context
+        """
         if ArgonLogger._loggerNotifier:
             ArgonLogger._loggerNotifier.clearCallback()
         ArgonLogger._zincLogger = zincContext.getLogger()

@@ -33,9 +33,20 @@ class ArgonSpectrums(object):
         self._findOrCreateAllSpectrumGlyphColourBars()
 
     def getZincContext(self):
+        """
+        Return the zinc Context of current argon spectrum.
+
+        :return: opencmiss.zinc.context.Context
+        """
         return self._zincContext
 
     def deserialize(self, dictInput):
+        """
+        Read the JSON description to the Argon spectrum object. This will change the spectrums in the Zinc spectrum module. 
+        Raising an ArgonError if Zinc spectrum module read JSON description failed.
+
+        :param  dictInput: The string containing JSON description
+        """
         spectrumsDescription = json.dumps(dictInput)
         result = self._spectrummodule.readDescription(spectrumsDescription)
         if result != ZINC_OK:
@@ -43,6 +54,11 @@ class ArgonSpectrums(object):
         self._findOrCreateAllSpectrumGlyphColourBars()
 
     def serialize(self):
+        """
+        Write the JSON file describing the spectrums in the argon spectrum object, which can be used to store the current spectrum settings.
+
+        :return: Python JSON object containing the JSON description of argon spectrum object, otherwise 0.
+        """
         spectrumsDescription = self._spectrummodule.writeDescription()
         dictOutput = json.loads(spectrumsDescription)
         return dictOutput
@@ -86,6 +102,8 @@ class ArgonSpectrums(object):
         """
         Find or create a GlyphColourBar for spectrum in the glyph module.
         Newly created colour bar is set up for display in the normalised window coordinates at left.
+        
+        :param spectrum: The spectrum that the colour bar belongs to.
         """
         colourBar = self._findSpectrumGlyphColourBar(spectrum)
         if colourBar:
@@ -116,7 +134,10 @@ class ArgonSpectrums(object):
     def renameSpectrum(self, spectrum, name):
         """
         Renames spectrum and its glyph
-        :return True on success, otherwise False (means name not set)
+
+        :param spectrum: The spectrum that need to be renamed.
+        :param name: New name to the spectrum.
+        :return: True on success, otherwise False (means name not set)
         """
         colourBar = self.findOrCreateSpectrumGlyphColourBar(spectrum)
         result = spectrum.setName(name)
@@ -133,7 +154,8 @@ class ArgonSpectrums(object):
     def removeSpectrumByName(self, name):
         """
         Unmanages spectrum and its colour bar. Note spectrum is only removed if neither are in use.
-        :return True if spectrum and colour bar removed, false if failed i.e. either are in use.
+        
+        :return: True if spectrum and colour bar removed, false if failed i.e. either are in use.
         """
         spectrum = self._spectrummodule.findSpectrumByName(name)
         colourBar = self._findSpectrumGlyphColourBar(spectrum)
