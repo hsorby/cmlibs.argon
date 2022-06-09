@@ -29,15 +29,30 @@ class ArgonMaterials(object):
         self._materialsmodule = zincContext.getMaterialmodule()
 
     def getZincContext(self):
+        """
+        Returns the underlying Zinc context for the Argon Material.
+
+        :return: opencmiss.zinc.context.Context
+        """
         return self._zincContext
 
     def deserialize(self, dictInput):
+        """
+        Read the JSON description to the argon Material object. This will change the materials in the material module.
+
+        :param dictInput: The string containing JSON description.
+        """
         materialsDescription = json.dumps(dictInput)
         result = self._materialsmodule.readDescription(materialsDescription)
         if result != ZINC_OK:
             raise ArgonError("Failed to read materials")
 
     def serialize(self):
+        """
+        Write the JSON file describing the materials in the Argon Materials object, which can be used to store the current material settings.
+
+        :return: Python JSON object containing the JSON description of Argon Materials object, otherwise 0.
+        """
         materialsDescription = self._materialsmodule.writeDescription()
         dictOutput = json.loads(materialsDescription)
         return dictOutput

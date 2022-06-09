@@ -94,8 +94,9 @@ class ArgonRegion(object):
     def connectRegionChange(self, callableObject):
         """
         Request callbacks on region tree changes.
+
         :param callableObject: Callable object taking a NeonRegion argument and a boolean flag which is True if tree
-        structure below region needs to be rebuilt.
+                               structure below region needs to be rebuilt.
         """
         self._regionChangeCallbacks.append(callableObject)
 
@@ -160,7 +161,8 @@ class ArgonRegion(object):
 
     def _discoverNewZincRegions(self):
         """
-        Ensure there are Neon regions for every Zinc Region in tree
+        Ensure there are Neon regions for every Zinc Region in tree.
+
         :return: Number of new descendant regions created
         """
         newRegionCount = 0
@@ -192,6 +194,11 @@ class ArgonRegion(object):
         return None
 
     def deserialize(self, dictInput):
+        """
+        Read the JSON description to the argon region object. This will change the settings of ArgonRegion Object.
+
+        :param  state: string serialisation of Argon JSON Region.
+        """
         if "Model" in dictInput:
             model = dictInput["Model"]
             if "Sources" in model:
@@ -257,6 +264,12 @@ class ArgonRegion(object):
         self._discoverNewZincRegions()
 
     def serialize(self, basePath=None):
+        """
+        Write the JSON file describing the Argon region, which can be used to store the current argon region settings.
+
+        :param basePath: The base path of JSON file, default is None.
+        :return: Python JSON object containing the JSON description of argon region object.
+        """
         dictOutput = {}
         if self._name:
             dictOutput["Name"] = self._name
@@ -284,6 +297,11 @@ class ArgonRegion(object):
         return dictOutput
 
     def getDisplayName(self):
+        """
+        Returns the display name of current region.
+
+        :return: string
+        """
         if self._name:
             return self._name
         elif not self._parent:
@@ -291,33 +309,81 @@ class ArgonRegion(object):
         return "?"
 
     def getName(self):
+        """
+        Returns the name of current region.
+
+        :return: string
+        """
         return self._name
 
     def getPath(self):
+        """
+        Returns the path of current region.
+
+        :return: string
+        """
         if self._name:
             return self._parent.getPath() + self._name + REGION_PATH_SEPARATOR
         return REGION_PATH_SEPARATOR
 
     def getParent(self):
+        """
+        Returns the parent Argon region of current region.
+
+        :return: ArgonRegion
+        """
         return self._parent
 
     def getZincRegion(self):
+        """
+        Returns the underlying Zinc context for the Argon region.
+
+        :return: opencmiss.zinc.context.Context
+        """
         return self._zincRegion
 
     def getChildCount(self):
+        """
+        Returns the amoung of child region the current region has.
+
+        :return: int
+        """
         return len(self._children)
 
     def getChild(self, index):
+        """
+        Returns the child region of current region by given index.
+
+        :param index: The index of target region.
+        :return: ArgonRegion
+        """
         return self._children[index]
     
     def getFieldTypeDict(self):
+        """
+        Returns the dictionary of field type in current region.
+
+        :return: dict
+        """
         return self._fieldTypeDict
     
     def addFieldTypeToDict(self, field, fieldType):
+        """
+        Add new field type and field to the field type dictionary in current region.
+
+        :param field: The field need to be added to current region.
+        :param fieldType: The field type of the field.
+        """
         if field and field.isValid():
             self._fieldTypeDict[field.getName()] = fieldType
             
     def replaceFieldTypeKey(self, oldName, newName):
+        """
+        Replace field type name in the field type dictionary in current region.
+
+        :param oldName: Current field need to be replaced.
+        :param newName: New name that will be change to.
+        """
         if oldName in self._fieldTypeDict:
             self._fieldTypeDict[newName] = self._fieldTypeDict.pop(oldName)
     
@@ -335,7 +401,8 @@ class ArgonRegion(object):
     def createChild(self):
         """
         Create a child region with a default name
-        :return: The new Neon Region
+
+        :return: ArgonRegion
         """
         childName = self._generateChildName()
         zincRegion = self._zincRegion.createChild(childName)
@@ -348,7 +415,9 @@ class ArgonRegion(object):
 
     def removeChild(self, childRegion):
         """
-        Remove child region and destroy
+        Remove child region and destroy.
+
+        :param childRegion: ArgonRegion
         """
         self._children.remove(childRegion)
         self._zincRegion.removeChild(childRegion._zincRegion)
@@ -369,6 +438,11 @@ class ArgonRegion(object):
             self.clear()
 
     def setName(self, name):
+        """
+        Change region name, the name of Root Region can not be changed.
+
+        :param name: string
+        """
         if not self._parent:
             return False
         if len(name) == 0:
@@ -382,11 +456,17 @@ class ArgonRegion(object):
         return True
 
     def getModelSources(self):
+        """
+        Get model sources.
+
+        :return: The model source
+        """
         return self._modelSources
 
     def addModelSource(self, modelSource):
         """
         Add model source, applying it if not currently editing
+
         :param modelSource: The model source to add
         """
         self._modelSources.append(modelSource)
@@ -396,6 +476,7 @@ class ArgonRegion(object):
     def applyModelSource(self, modelSource):
         """
         Apply model source, loading it or reloading it with all other sources as required
+        
         :param modelSource: The model source to apply
         """
         modelSource.setEdit(False)
@@ -407,6 +488,7 @@ class ArgonRegion(object):
     def removeModelSource(self, modelSource):
         """
         Remove model source, reloading model if it removed source had been loaded
+        
         :param modelSource: The model source to remove
         """
         self._modelSources.remove(modelSource)
