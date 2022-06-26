@@ -19,24 +19,24 @@ from opencmiss.zinc.streamregion import StreaminformationRegion
 from opencmiss.argon.argonerror import ArgonError
 
 
-def fileNameToRelativePath(fileName, basePath):
-    if (basePath is None) or (not os.path.isabs(fileName)) or (os.path.commonprefix([fileName, basePath]) == ""):
-        return fileName
-    return os.path.relpath(fileName, basePath)
+def _file_name_to_relative_path(file_name, base_path):
+    if (base_path is None) or (not os.path.isabs(file_name)) or (os.path.commonprefix([file_name, base_path]) == ""):
+        return file_name
+    return os.path.relpath(file_name, base_path)
 
 
 class ArgonModelSourceFile(object):
 
-    def __init__(self, fileName=None, dictInput=None):
+    def __init__(self, file_name=None, dict_input=None):
         self._time = None
         self._format = None
         self._edit = False
         self._region_name = None
         self._loaded = False
-        if fileName is not None:
-            self._fileName = fileName
+        if file_name is not None:
+            self._file_name = file_name
         else:
-            self._deserialize(dictInput)
+            self._deserialize(dict_input)
 
     def getType(self):
         """
@@ -46,24 +46,24 @@ class ArgonModelSourceFile(object):
         """
         return "FILE"
 
-    def addToZincStreaminformationRegion(self, streamInfo):
+    def addToZincStreaminformationRegion(self, stream_info):
         """
         Add to Zinc Stream information Region.
 
-        :param streamInfo: streamInfo
+        :param stream_info: streamInfo
         """
         if self._edit:
             return
-        if not self._fileName:
+        if not self._file_name:
             self._edit = True
             return
-        resource = streamInfo.createStreamresourceFile(self._fileName)
+        resource = stream_info.createStreamresourceFile(self._file_name)
         self._loaded = True
-        if self._time is not None:
+        if self._time is not None and self._time:
             time = self._time
             if not isinstance(self._time, float):
                 time = float(self._time)
-            streamInfo.setResourceAttributeReal(resource, StreaminformationRegion.ATTRIBUTE_TIME, time)
+            stream_info.setResourceAttributeReal(resource, StreaminformationRegion.ATTRIBUTE_TIME, time)
         # if self._format is not None:
         #    if format == "EX":
         #        #can't set per-resource file format
@@ -81,15 +81,15 @@ class ArgonModelSourceFile(object):
 
         :return: string
         """
-        return self._fileName
+        return self._file_name
 
-    def setFileName(self, fileName):
+    def setFileName(self, file_name):
         """
-        Change file name.
+        Set file name.
 
-        :param fileName: string
+        :param file_name: string
         """
-        self._fileName = fileName
+        self._file_name = file_name
 
     def getRegionName(self):
         """
@@ -134,7 +134,7 @@ class ArgonModelSourceFile(object):
             timeText = ""
         else:
             timeText = ", time " + repr(self._time)
-        displayFileName = os.path.basename(self._fileName)
+        displayFileName = os.path.basename(self._file_name)
         return editText + "File " + displayFileName + timeText
 
     def isLoaded(self):
@@ -161,46 +161,50 @@ class ArgonModelSourceFile(object):
         """
         self._edit = edit
 
-    def _deserialize(self, dictInput):
+    def _deserialize(self, dict_input):
         # convert to absolute file path so can save Neon file to new location and get correct relative path
-        self._fileName = os.path.abspath(dictInput["FileName"])
-        if "Time" in dictInput:
-            self._time = dictInput["Time"]
-        if "Format" in dictInput:
-            self._format = dictInput["Format"]
-        if "Edit" in dictInput:
-            self._edit = dictInput["Edit"]
-        if "RegionName" in dictInput:
-            self._region_name = dictInput["RegionName"]
+        self._file_name = os.path.abspath(dict_input["FileName"])
+        if "Edit" in dict_input:
+            self._edit = dict_input["Edit"]
+        if "Format" in dict_input:
+            self._format = dict_input["Format"]
+        if "RegionName" in dict_input:
+            self._region_name = dict_input["RegionName"]
+        if "Time" in dict_input:
+            self._time = dict_input["Time"]
 
-    def serialize(self, basePath=None):
+    def serialize(self, base_path=None):
         """
         Write the JSON file describing the Argon model sources, which can be used to store the current Argon model sources settings.
-
-        :param basePath: The base path of JSON file, default is None.
+        :param base_path: The base path of JSON file, default is None.
         :return: Python JSON object containing the JSON description of Argon model sources object.
         """
-        dictOutput = {}
-        dictOutput["Type"] = self.getType()
-        dictOutput["FileName"] = fileNameToRelativePath(self._fileName, basePath)
-        if self._region_name is not None:
-            dictOutput["RegionName"] = self._region_name
-        if self._time is not None:
-            dictOutput["Time"] = self._time
+        dict_output = {
+            "Type": self.getType(),
+            "FileName": _file_name_to_relative_path(self._file_name, base_path)
+        }
         if self._edit:
-            dictOutput["Edit"] = True
-        return dictOutput
+            dict_output["Edit"] = True
+        if self._format is not None:
+            dict_output["Format"] = self._format
+        if self._region_name is not None:
+            dict_output["RegionName"] = self._region_name
+        if self._time is not None:
+            dict_output["Time"] = self._time
 
-def deserializeArgonModelSource(dictInput):
+        return dict_output
+
+
+def deserializeArgonModelSource(dict_input):
     """
     Factory method for creating the appropriate neon model source type from the dict serialization
     """
-    if "Type" not in dictInput:
+    if "Type" not in dict_input:
         raise ArgonError("Model source is missing Type attribute")
-    modelSource = None
-    typeString = dictInput["Type"]
+
+    typeString = dict_input["Type"]
     if typeString == "FILE":
-        modelSource = ArgonModelSourceFile(dictInput=dictInput)
+        modelSource = ArgonModelSourceFile(dict_input=dict_input)
     else:
         raise ArgonError("Model source has unrecognised Type " + typeString)
     return modelSource

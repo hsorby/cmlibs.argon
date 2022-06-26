@@ -142,11 +142,11 @@ class ArgonDocument(object):
             self._view_manager.deserialize(d["Views"])
         self._rootRegion.deserialize(d["RootRegion"])
 
-    def serialize(self, basePath=None):
+    def serialize(self, base_path=None):
         """
         Write the JSON file describing the Argon document in the argon document object, which can be used to store the current argon document settings.
 
-        :param basePath: The base path of JSON file, default is None.
+        :param base_path: The base path of JSON file, default is None.
         :return: Python JSON object containing the JSON description of argon document object.
         """
         dictOutput = {
@@ -155,7 +155,7 @@ class ArgonDocument(object):
             "Materials": self._materials.serialize(),
             "Views": self._view_manager.serialize(),
             "Tessellations": self._tessellations.serialize(),
-            "RootRegion": self._rootRegion.serialize(basePath)
+            "RootRegion": self._rootRegion.serialize(base_path)
         }
         return json.dumps(dictOutput, default=lambda o: o.__dict__, sort_keys=True, indent=2)
 
