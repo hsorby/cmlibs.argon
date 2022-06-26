@@ -1,4 +1,8 @@
 # Configuration file for the Sphinx documentation builder.
+import os
+import sys
+
+here = os.path.dirname(__file__)
 
 # -- Project information
 
@@ -33,3 +37,8 @@ html_theme = 'nature'
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
+
+
+sys.path.append(os.path.join(here, 'mock'))
+sys.path.append(os.path.join(here, '..', 'src'))
+
