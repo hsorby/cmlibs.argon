@@ -25,13 +25,13 @@ ArgonMaterials(zincContext)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Manages and serializes Zinc Materials.
 
-deserialize(self, dictInput)
+deserialize(self, dict_input)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Read the json description to the argon Material object. This will change the spectrums in the spectrum module.
 
 **Parameters**
 
-*dictInput:* The string containing json description
+*dict_input:* The string containing json description
 
 getZincContext(self)
 ^^^^^^^^^^^^^^^^^^^^

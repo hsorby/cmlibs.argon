@@ -32,7 +32,7 @@ getZincContext(self)
 
 initialiseVisualisationContents(self)
 
-serialize(self, basePath=None)
+serialize(self, base_path=None)
 
 
 Detailed Description
@@ -117,7 +117,7 @@ initialiseVisualisationContents(self)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Initialise the default Visualisation Contents.
 
-serialize(self, basePath=None)
+serialize(self, base_path=None)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Write the json file describing the Argon document in the argon document object, which can be used to store the current argon document settings.
 

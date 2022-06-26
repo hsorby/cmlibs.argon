@@ -129,14 +129,14 @@ class ArgonDocument(object):
             self._view_manager.deserialize(d["Views"])
         self._rootRegion.deserialize(d["RootRegion"])
 
-    def serialize(self, basePath=None):
+    def serialize(self, base_path=None):
         dictOutput = {
             "OpenCMISS-Argon Version": mainsettings.VERSION_LIST,
             "Spectrums": self._spectrums.serialize(),
             "Materials": self._materials.serialize(),
             "Views": self._view_manager.serialize(),
             "Tessellations": self._tessellations.serialize(),
-            "RootRegion": self._rootRegion.serialize(basePath)
+            "RootRegion": self._rootRegion.serialize(base_path)
         }
         return json.dumps(dictOutput, default=lambda o: o.__dict__, sort_keys=True, indent=2)
 
