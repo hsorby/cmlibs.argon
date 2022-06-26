@@ -174,6 +174,11 @@ class ArgonModelSourceFile(object):
             self._time = dict_input["Time"]
 
     def serialize(self, base_path=None):
+        """
+        Write the JSON file describing the Argon model sources, which can be used to store the current Argon model sources settings.
+        :param base_path: The base path of JSON file, default is None.
+        :return: Python JSON object containing the JSON description of Argon model sources object.
+        """
         dict_output = {
             "Type": self.getType(),
             "FileName": _file_name_to_relative_path(self._file_name, base_path)
