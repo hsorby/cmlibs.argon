@@ -43,13 +43,24 @@ class ArgonDocument(object):
         self._tessellations = None
 
     def checkVersion(self, minimum_required):
+        """
+        Check the version number of this Argon library. Raise an error if current Argon is less than the minimun required version.
+        """
         if version.parse(__version__) < version.parse(minimum_required):
             raise SyntaxError(f"Argon document error - Argon document must be at least version '{minimum_required}'.")
 
     def getName(self):
+        """
+        Returns the name of the zinc Context.
+
+        :return: string
+        """
         return self._zincContext.getName()
 
     def initialiseVisualisationContents(self):
+        """
+        Initialise the default Visualisation Contents.
+        """
         self._zincContext = Context(self._name)
 
         sceneviewermodule = self._zincContext.getSceneviewermodule()
@@ -105,7 +116,9 @@ class ArgonDocument(object):
 
     def deserialize(self, state):
         """
-        :param  state: string serialisation of Argon JSON document
+        Read the JSON description to the argon document object. This will change the settings of ArgonDocument Object.
+
+        :param  state: string serialisation of Argon JSON document.
         """
         d = json.loads(state)
         if not (("OpenCMISS-Argon Version" in d) and ("RootRegion" in d)):
@@ -130,6 +143,12 @@ class ArgonDocument(object):
         self._rootRegion.deserialize(d["RootRegion"])
 
     def serialize(self, base_path=None):
+        """
+        Write the JSON file describing the Argon document in the argon document object, which can be used to store the current argon document settings.
+
+        :param base_path: The base path of JSON file, default is None.
+        :return: Python JSON object containing the JSON description of argon document object.
+        """
         dictOutput = {
             "OpenCMISS-Argon Version": mainsettings.VERSION_LIST,
             "Spectrums": self._spectrums.serialize(),
@@ -141,24 +160,60 @@ class ArgonDocument(object):
         return json.dumps(dictOutput, default=lambda o: o.__dict__, sort_keys=True, indent=2)
 
     def getZincContext(self):
+        """
+        Returns the underlying Zinc context for the document.
+
+        :return: opencmiss.zinc.context.Context
+        """
         return self._zincContext
 
     def getRootRegion(self):
+        """
+        Returns the root region in the context. A convenience for applications that need only one region tree.
+
+        :return: ArgonRegion
+        """
         return self._rootRegion
 
     def getSpectrums(self):
+        """
+        Returns the spectrums in the context.
+
+        :return: ArgonSpectrums
+        """
         return self._spectrums
 
     def getMaterials(self):
+        """
+        Returns the materials in the context.
+
+        :return: ArgonMaterials
+        """
         return self._materials
 
     def getViewManager(self):
+        """
+        Returns the view manager in the context.
+
+        :return: ArgonViewManager
+        """
         return self._view_manager
 
     def getTessellations(self):
+        """
+        Returns the tessellations in the context.
+
+        :return: ArgonTessellations
+        """
         return self._tessellations
 
     def findRegion(self, name):
+        """
+        Find region by name.
+
+        :param name: The name of the region as a string.
+        :return: ArgonRegion or None if region is not found.
+        """
         if not name.endswith(REGION_PATH_SEPARATOR):
             name += REGION_PATH_SEPARATOR
         return _findSubRegion(self._rootRegion, name)

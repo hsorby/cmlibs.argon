@@ -39,9 +39,19 @@ class ArgonModelSourceFile(object):
             self._deserialize(dict_input)
 
     def getType(self):
+        """
+        Returns Argon Model Source File type "FILE".
+
+        :return: string
+        """
         return "FILE"
 
     def addToZincStreaminformationRegion(self, stream_info):
+        """
+        Add to Zinc Stream information Region.
+
+        :param stream_info: streamInfo
+        """
         if self._edit:
             return
         if not self._file_name:
@@ -60,27 +70,65 @@ class ArgonModelSourceFile(object):
         #        #streamInfo.setResourceFileFormat(resource, StreaminformationRegion.FILE_FORMAT_EX)
 
     def unloaded(self):
+        """
+        Set Argon model sources unloaded.
+        """
         self._loaded = False
 
     def getFileName(self):
+        """
+        Returns the file name of current Argon model sources.
+
+        :return: string
+        """
         return self._file_name
 
     def setFileName(self, file_name):
+        """
+        Set file name.
+
+        :param file_name: string
+        """
         self._file_name = file_name
 
     def getRegionName(self):
+        """
+        Returns the region name of current Argon model sources.
+
+        :return: string
+        """
         return self._region_name
 
     def setRegionName(self, region_name):
+        """
+        Change region name.
+
+        :param region_name: string
+        """
         self._region_name = region_name
 
     def getTime(self):
+        """
+        Returns the time of current Argon model sources.
+
+        :return: string
+        """
         return self._time
 
     def setTime(self, time):
+        """
+        Change time.
+
+        :param time: string
+        """
         self._time = time
 
     def getDisplayName(self):
+        """
+        Returns the display name of current Argon model sources.
+
+        :return: string
+        """
         editText = "[To Apply] " if self._edit else ""
         if self._time is None:
             timeText = ""
@@ -90,38 +138,56 @@ class ArgonModelSourceFile(object):
         return editText + "File " + displayFileName + timeText
 
     def isLoaded(self):
+        """
+        Returns the load state of current Argon model sources.
+
+        :return: boolean
+        """
         return self._loaded
 
     def isEdit(self):
+        """
+        Returns the edit state of current Argon model sources.
+
+        :return: boolean
+        """
         return self._edit
 
     def setEdit(self, edit):
+        """
+        Change edit state for Argon model sources.
+
+        :param edit: boolean
+        """
         self._edit = edit
 
     def _deserialize(self, dict_input):
         # convert to absolute file path so can save Neon file to new location and get correct relative path
         self._file_name = os.path.abspath(dict_input["FileName"])
-        if "Time" in dict_input:
-            self._time = dict_input["Time"]
-        if "Format" in dict_input:
-            self._format = dict_input["Format"]
         if "Edit" in dict_input:
             self._edit = dict_input["Edit"]
+        if "Format" in dict_input:
+            self._format = dict_input["Format"]
         if "RegionName" in dict_input:
             self._region_name = dict_input["RegionName"]
+        if "Time" in dict_input:
+            self._time = dict_input["Time"]
 
     def serialize(self, base_path=None):
-        dictOutput = {
+        dict_output = {
             "Type": self.getType(),
             "FileName": _file_name_to_relative_path(self._file_name, base_path)
         }
-        if self._region_name is not None:
-            dictOutput["RegionName"] = self._region_name
-        if self._time is not None:
-            dictOutput["Time"] = self._time
         if self._edit:
-            dictOutput["Edit"] = True
-        return dictOutput
+            dict_output["Edit"] = True
+        if self._format is not None:
+            dict_output["Format"] = self._format
+        if self._region_name is not None:
+            dict_output["RegionName"] = self._region_name
+        if self._time is not None:
+            dict_output["Time"] = self._time
+
+        return dict_output
 
 
 def deserializeArgonModelSource(dict_input):

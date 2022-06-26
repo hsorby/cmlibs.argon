@@ -24,4 +24,9 @@ class ArgonError(Exception):
         return repr(self.message)
 
     def getMessage(self):
+        """
+        Returns the error message.
+
+        :return: string
+        """
         return self.message

@@ -83,6 +83,11 @@ class ArgonSceneviewer(object):
         self._zoom_rate = default_zoom_rate
 
     def applyParameters(self, sceneviewer):
+        """
+        Apply Argon sceneviewer parameters to Zinc sceneviewer.
+
+        :param  sceneviewer: Zinc scenviewer object.
+        """
         sceneviewer.setEyePosition(self._eye_position)
         sceneviewer.setLookatPosition(self._lookat_position)
         sceneviewer.setUpVector(self._up_vector)
@@ -103,6 +108,11 @@ class ArgonSceneviewer(object):
                 sceneviewer.setScene(scene_region.getScene())
 
     def updateParameters(self, sceneviewer):
+        """
+        Read parameters from Zinc scenviewer to the Argon sceneviewer object. This will change the settings of ArgonSceneviewer Object.
+
+        :param  sceneviewer: Zinc scenviewer object.
+        """
         result, eye = sceneviewer.getEyePosition()
         result, lookat = sceneviewer.getLookatPosition()
         result, up_vector = sceneviewer.getUpVector()
@@ -139,11 +149,21 @@ class ArgonSceneviewer(object):
         self._zoom_rate = default_zoom_rate
 
     def get_view_parameters(self):
+        """
+        Return the view parameters of Argon sceneviewer.
+
+        :return: dictionary
+        """
         return {'farClippingPlane': self._far_clipping_plane, 'nearClippingPlane': self._near_clipping_plane,
                 'eyePosition': self._eye_position, 'lookAtPosition': self._lookat_position, 'upVector': self._up_vector,
                 'viewAngle': self._view_angle}
 
     def deserialize(self, d):
+        """
+        Read the JSON description to the Argon sceneviewer object. This will change the settings of ArgonSceneviewer Object.
+
+        :param  d: Python JSON object containing the JSON description of Argon sceneviewer object.
+        """
         # d = json.loads(s)
         self._anti_alias_sampling = d["AntialiasSampling"] if "AntialiasSampling" in d else default_anti_alias_sampling
         self._background_colour_RGB = d["BackgroundColourRGB"] if "BackgroundColourRGB" in d \
@@ -171,6 +191,11 @@ class ArgonSceneviewer(object):
         self._zoom_rate = d["ZoomRate"] if "ZoomRate" in d else default_zoom_rate
 
     def serialize(self):
+        """
+        Write the JSON file describing the Argon sceneviewer, which can be used to store the current Argon sceneviewer settings.
+
+        :return: Python JSON object containing the JSON description of Argon sceneviewer object.
+        """
         d = {}
         d["AntialiasSampling"] = self._anti_alias_sampling
         d["BackgroundColourRGB"] = self._background_colour_RGB

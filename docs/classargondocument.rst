@@ -53,7 +53,6 @@ checkVersion(self, minimum_required)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Check the version number of this Argon library. 
 
-
 deserialize(self, state)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 Read the json description to the argon document object. This will change the settings of ArgonDocument Object.
@@ -123,4 +122,4 @@ Write the json file describing the Argon document in the argon document object, 
 
 **Returns**
 
-Python json object containing the json description of argon document object
+Python JSON object containing the json description of argon document object.

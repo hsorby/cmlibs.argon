@@ -81,9 +81,19 @@ class ArgonViewManager(object):
         self._activeView = None
 
     def getZincContext(self):
+        """
+        Returns the underlying Zinc context for the view manager.
+
+        :return: opencmiss.zinc.context.Context
+        """
         return self._zincContext
 
     def deserialize(self, d):
+        """
+        Read the JSON description to the ArgonViewManager object. This will change settings of ArgonViewManager Object.
+
+        :param  d: Python JSON object containing the JSON description of ArgonViewManager object.
+        """
         self._activeView = d["ActiveView"] if "ActiveView" in d else None
         if "Children" in d:
             for i in d["Children"]:
@@ -92,6 +102,11 @@ class ArgonViewManager(object):
                 self._views.append(view)
 
     def serialize(self):
+        """
+        Write the JSON file describing the ArgonViewManager, which can be used to store the current ArgonViewManager settings.
+
+        :return: Python JSON object containing the JSON description of ArgonViewManager object.
+        """
         dictOutput = {}
         if self._activeView:
             dictOutput["ActiveView"] = self._activeView
@@ -104,24 +119,61 @@ class ArgonViewManager(object):
         return dictOutput
 
     def getActiveView(self):
+        """
+        Returns current active view.
+
+        :return: ArgonView
+        """
         return self._activeView
 
     def setActiveView(self, view):
+        """
+        Sets current active view.
+
+        :param view: ArgonView
+        """
         self._activeView = view
 
     def getView(self, index):
+        """
+        Get view by index.
+
+        :param index: int
+        """
         return self._views[index]
 
     def getViews(self):
+        """
+        Get a list of views.
+
+        :return: list
+        """
         return self._views
 
     def viewCount(self):
+        """
+        Get the total number of views in this ArgonViewManager object.
+
+        :return: int
+        """
         return len(self._views)
 
     def setViews(self, views):
+        """
+        Set views.
+
+        :param views: list
+        """
         self._views = views
 
     def addViewByType(self, view_type, name=None):
+        """
+        Create a new view with given view layout type, there are two avaiable types:
+        LAYOUT1 for view with single sceneviewer, LAYOUT2x2GRID for view with four sceneviewers.
+
+        :param view_type: View layout type.
+        :param name: Name of the new view, default is None. If it is None, will use view type as name.
+        """
         for layout in LAYOUTS:
             if layout["Name"] == view_type:
                 new_view = ArgonView(self._zincContext)
@@ -135,6 +187,11 @@ class ArgonViewManager(object):
                 return new_view
 
     def removeView(self, identifier):
+        """
+        Remove view by given identifier.
+
+        :param identifier: The identifier of view.
+        """
         del self._views[identifier]
 
     def _name_in_use(self, name):
@@ -152,6 +209,12 @@ class ArgonViewManager(object):
         return f"{name_stem}_{iteration}"
 
     def updateSceneviewers(self, view_index, sceneviewers_info):
+        """
+        Update sceneviewer info in the view.
+
+        :param view_index: The index of view that need to be updated.
+        :param sceneviewers_info: New sceneviewers info.
+        """
         if 0 <= view_index < len(self._views):
             view = self._views[view_index]
             for sceneviewer_info in sceneviewers_info:
@@ -170,9 +233,19 @@ class ArgonView(object):
         self._scenes = []
 
     def getZincContext(self):
+        """
+        Return the zinc Context of current argon view.
+
+        :return: opencmiss.zinc.context.Context
+        """
         return self._zincContext
 
     def deserialize(self, d):
+        """
+        Read the JSON description to the Argon View object. This will change settings of ArgonView Object.
+
+        :param  d: Python JSON object containing the JSON description of Argon view object.
+        """
         self._name = d["Name"] if "Name" in d else None
         self._gridSpecification = d["GridSpecification"] if "GridSpecification" in d else None
 
@@ -191,6 +264,11 @@ class ArgonView(object):
                 self._scenes.append(scene)
 
     def serialize(self):
+        """
+        Write the JSON file describing the Argon view, which can be used to store the current Argon view settings.
+
+        :return: Python JSON object containing the JSON description of Argon view object.
+        """
         dictOutput = {}
         if self._name:
             dictOutput["Name"] = self._name
@@ -208,18 +286,45 @@ class ArgonView(object):
         return dictOutput
 
     def getName(self):
+        """
+        Returns the name of current view.
+
+        :return: string
+        """
         return self._name
 
     def setName(self, name):
+        """
+        Set name of current view.
+
+        :param name: string
+        """
         self._name = name
 
     def getScenes(self):
+        """
+        Returns a list of scene in current view.
+
+        :return: list
+        """
         return self._scenes
 
     def getGridSpecification(self):
+        """
+        Returns the grid specification of current region.
+
+        :return: string
+        """
         return self._gridSpecification
 
     def updateSceneviewer(self, row, col, sceneviewer):
+        """
+        Update sceneviewer at given grid location.
+
+        :param row: int
+        :param col: int
+        :param sceneviewer: ArgonSceneviewer
+        """
         for scene in self._scenes:
             if scene["Row"] == row and scene["Col"] == col:
                 scene["Sceneviewer"].updateParameters(sceneviewer)

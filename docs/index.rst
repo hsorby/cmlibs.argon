@@ -5,10 +5,6 @@ The **OpenCMISS-Argon** is the core data structures for GUI applications using O
 
 Manages and serializes argon file.
 
-.. note::
-
-   This project is under active development.
-
 Install
 -------
 
@@ -16,6 +12,8 @@ Requirements
 ^^^^^^^^^^^^
 
 python >= 3.6
+
+opencmiss.zinc >= 3.6
 
 pip install
 ^^^^^^^^^^^
@@ -27,41 +25,100 @@ OpenCMISS-Argon can be installed from PyPi.org with the following command::
 Usage
 -----
 
-OpenCMISS-Argon can be imported by following command::
+This package provides ten modules
 
-  import opencmiss.argon
+#. argondocument
+#. argonerror
+#. argonlogger
+#. argonmaterials
+#. argonmodelsources
+#. argonregion
+#. argonsceneviewer
+#. argonspectrums
+#. argontessellations
+#. argonviews
 
+These modules are surfaced under the namespace package *opencmiss* within the *argon* package.
+To use these modules the following import statement can be used::
 
-Project Structure
------------------
+  import opencmiss.argon.argondocument
+  import opencmiss.argon.argonerror
+  import opencmiss.argon.argonlogger
+  import opencmiss.argon.argonmaterials
+  import opencmiss.argon.argonmodelsources
+  import opencmiss.argon.argonregion
+  import opencmiss.argon.argonsceneviewer
+  import opencmiss.argon.argonspectrums
+  import opencmiss.argon.argontessellations
+  import opencmiss.argon.argonviews
 
 Classes
 -------
+.. .. automodule:: opencmiss.argon.argonsceneviewer
+..    :members:
+
+ArgonDocument Class
+^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: opencmiss.argon.argondocument.ArgonDocument
    :members:
 
-`class ArgonDocument`_
+ArgonError Class
+^^^^^^^^^^^^^^^^
 
-`class ArgonRegion`_
+.. autoclass:: opencmiss.argon.argonerror.ArgonError
+   :members:
 
-`class ArgonSpectrums`_
+ArgonLogger Class
+^^^^^^^^^^^^^^^^^
 
-`class ArgonMaterials`_
+.. autoclass:: opencmiss.argon.argonlogger.ArgonLogger
+   :members:
 
-`class ArgonView`_
+ArgonMaterials Class
+^^^^^^^^^^^^^^^^^^^^
 
-`class ArgonTessellations`_
+.. autoclass:: opencmiss.argon.argonmaterials.ArgonMaterials
+   :members:
 
-`class ArgonError`_
+ArgonModelSourceFile Class
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-`class ArgonLogger`_
+.. autoclass:: opencmiss.argon.argonmodelsources.ArgonModelSourceFile
+   :members:
 
-.. _class ArgonDocument: classargondocument.rst
-.. _class ArgonRegion: classargonregion.rst
-.. _class ArgonSpectrums: classargonspectrums.rst
-.. _class ArgonMaterials: classargonmaterials.rst
-.. _class ArgonView: classargonview.rst
-.. _class ArgonTessellations: classargontessellations.rst
-.. _class ArgonError: classargonerror.rst
-.. _class ArgonLogger: classargonlogger.rst
+ArgonRegion Class
+^^^^^^^^^^^^^^^^^
+
+.. autoclass:: opencmiss.argon.argonregion.ArgonRegion
+   :members:
+
+ArgonSceneviewer Class
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: opencmiss.argon.argonsceneviewer.ArgonSceneviewer
+   :members:
+
+ArgonSpectrums Class
+^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: opencmiss.argon.argonspectrums.ArgonSpectrums
+   :members:
+
+ArgonTessellations Class
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: opencmiss.argon.argontessellations.ArgonTessellations
+   :members:
+
+ArgonView Class
+^^^^^^^^^^^^^^^
+
+.. autoclass:: opencmiss.argon.argonviews.ArgonView
+   :members:
+
+ArgonViewManager Class
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: opencmiss.argon.argonviews.ArgonViewManager
+   :members:

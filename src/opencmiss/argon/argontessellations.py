@@ -29,15 +29,31 @@ class ArgonTessellations(object):
         self._tessellationmodule = zincContext.getTessellationmodule()
 
     def getZincContext(self):
+        """
+        Return the zinc Context of current Argon Tessellations.
+
+        :return: opencmiss.zinc.context.Context
+        """
         return self._zincContext
 
     def deserialize(self, dictInput):
+        """
+        Read the JSON description to the Argon Tessellations object. This will change the tessellation in the Zinc tessellation module. 
+        Raising an ArgonError if Zinc tessellation module read JSON description failed.
+
+        :param  dictInput: The string containing JSON description
+        """
         tessellationsDescription = json.dumps(dictInput)
         result = self._tessellationmodule.readDescription(tessellationsDescription)
         if result != ZINC_OK:
              raise ArgonError("Failed to read tessellations")
 
     def serialize(self):
+        """
+        Write the JSON file describing the tessellations in the argon tessellation object, which can be used to store the current tessellation settings.
+
+        :return: Python JSON object containing the JSON description of argon tessellation object, otherwise 0.
+        """
         tessellationsDescription = self._tessellationmodule.writeDescription()
         dictOutput = json.loads(tessellationsDescription)
         return dictOutput
