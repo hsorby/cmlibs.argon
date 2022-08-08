@@ -31,7 +31,6 @@ class ArgonModelSourceFile(object):
         self._time = None
         self._format = None
         self._edit = False
-        self._region_name = None
         self._loaded = False
         if file_name is not None:
             self._file_name = file_name
@@ -69,9 +68,9 @@ class ArgonModelSourceFile(object):
         #        #can't set per-resource file format
         #        #streamInfo.setResourceFileFormat(resource, StreaminformationRegion.FILE_FORMAT_EX)
 
-    def unloaded(self):
+    def unload(self):
         """
-        Set Argon model sources unloaded.
+        Set Argon model sources loaded state to False.
         """
         self._loaded = False
 
@@ -90,22 +89,6 @@ class ArgonModelSourceFile(object):
         :param file_name: string
         """
         self._file_name = file_name
-
-    def getRegionName(self):
-        """
-        Returns the region name of current Argon model sources.
-
-        :return: string
-        """
-        return self._region_name
-
-    def setRegionName(self, region_name):
-        """
-        Change region name.
-
-        :param region_name: string
-        """
-        self._region_name = region_name
 
     def getTime(self):
         """
@@ -168,8 +151,6 @@ class ArgonModelSourceFile(object):
             self._edit = dict_input["Edit"]
         if "Format" in dict_input:
             self._format = dict_input["Format"]
-        if "RegionName" in dict_input:
-            self._region_name = dict_input["RegionName"]
         if "Time" in dict_input:
             self._time = dict_input["Time"]
 
@@ -187,8 +168,6 @@ class ArgonModelSourceFile(object):
             dict_output["Edit"] = True
         if self._format is not None:
             dict_output["Format"] = self._format
-        if self._region_name is not None:
-            dict_output["RegionName"] = self._region_name
         if self._time is not None:
             dict_output["Time"] = self._time
 

@@ -493,5 +493,5 @@ class ArgonRegion(object):
         """
         self._modelSources.remove(modelSource)
         if modelSource.isLoaded():
-            modelSource.unloaded()
+            modelSource.unload()
             self._reload()
