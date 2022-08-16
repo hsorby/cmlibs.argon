@@ -289,11 +289,13 @@ class ArgonRegion(object):
             scene = self._zincRegion.getScene()
             sceneDescription = scene.writeDescription()
             dictOutput["Scene"] = json.loads(sceneDescription)
+
         if self._children:
             tmpOutput = []
             for child in self._children:
                 tmpOutput.append(child.serialize(basePath))
             dictOutput["ChildRegions"] = tmpOutput
+
         return dictOutput
 
     def getDisplayName(self):
