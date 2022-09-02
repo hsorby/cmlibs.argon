@@ -14,6 +14,7 @@
    limitations under the License.
 """
 import os
+import pathlib
 
 from opencmiss.zinc.streamregion import StreaminformationRegion
 from opencmiss.argon.argonerror import ArgonError
@@ -21,8 +22,8 @@ from opencmiss.argon.argonerror import ArgonError
 
 def _file_name_to_relative_path(file_name, base_path):
     if (base_path is None) or (not os.path.isabs(file_name)) or (os.path.commonprefix([file_name, base_path]) == ""):
-        return file_name
-    return os.path.relpath(file_name, base_path)
+        return pathlib.PurePath(file_name).as_posix()
+    return pathlib.PurePath(os.path.relpath(file_name, base_path)).as_posix()
 
 
 class ArgonModelSourceFile(object):
