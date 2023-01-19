@@ -1,7 +1,7 @@
-OpenCMISS-Argon
-===============
+CMLibs-Argon
+============
 
-The **OpenCMISS-Argon** is the core data structures for GUI applications using OpenCMISS-Zinc `opencmiss.org <http://opencmiss.org>`_.
+The **CMLibs-Argon** is the core data structures for GUI applications using OpenCMISS-Zinc `opencmiss.org <http://opencmiss.org>`_.
 
 Manages and serializes argon file.
 
@@ -18,9 +18,9 @@ opencmiss.zinc >= 3.6
 pip install
 ^^^^^^^^^^^
 
-OpenCMISS-Argon can be installed from PyPi.org with the following command::
+CMLibs-Argon can be installed from PyPi.org with the following command::
 
-  pip install opencmiss.argon
+  pip install cmlibs.argon
 
 Usage
 -----
@@ -38,87 +38,87 @@ This package provides ten modules
 #. argontessellations
 #. argonviews
 
-These modules are surfaced under the namespace package *opencmiss* within the *argon* package.
+These modules are surfaced under the namespace package *cmlibs* within the *argon* package.
 To use these modules the following import statement can be used::
 
-  import opencmiss.argon.argondocument
-  import opencmiss.argon.argonerror
-  import opencmiss.argon.argonlogger
-  import opencmiss.argon.argonmaterials
-  import opencmiss.argon.argonmodelsources
-  import opencmiss.argon.argonregion
-  import opencmiss.argon.argonsceneviewer
-  import opencmiss.argon.argonspectrums
-  import opencmiss.argon.argontessellations
-  import opencmiss.argon.argonviews
+  import cmlibs.argon.argondocument
+  import cmlibs.argon.argonerror
+  import cmlibs.argon.argonlogger
+  import cmlibs.argon.argonmaterials
+  import cmlibs.argon.argonmodelsources
+  import cmlibs.argon.argonregion
+  import cmlibs.argon.argonsceneviewer
+  import cmlibs.argon.argonspectrums
+  import cmlibs.argon.argontessellations
+  import cmlibs.argon.argonviews
 
 Classes
 -------
-.. .. automodule:: opencmiss.argon.argonsceneviewer
+.. .. automodule:: cmlibs.argon.argonsceneviewer
 ..    :members:
 
 ArgonDocument Class
 ^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: opencmiss.argon.argondocument.ArgonDocument
+.. autoclass:: cmlibs.argon.argondocument.ArgonDocument
    :members:
 
 ArgonError Class
 ^^^^^^^^^^^^^^^^
 
-.. autoclass:: opencmiss.argon.argonerror.ArgonError
+.. autoclass:: cmlibs.argon.argonerror.ArgonError
    :members:
 
 ArgonLogger Class
 ^^^^^^^^^^^^^^^^^
 
-.. autoclass:: opencmiss.argon.argonlogger.ArgonLogger
+.. autoclass:: cmlibs.argon.argonlogger.ArgonLogger
    :members:
 
 ArgonMaterials Class
 ^^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: opencmiss.argon.argonmaterials.ArgonMaterials
+.. autoclass:: cmlibs.argon.argonmaterials.ArgonMaterials
    :members:
 
 ArgonModelSourceFile Class
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: opencmiss.argon.argonmodelsources.ArgonModelSourceFile
+.. autoclass:: cmlibs.argon.argonmodelsources.ArgonModelSourceFile
    :members:
 
 ArgonRegion Class
 ^^^^^^^^^^^^^^^^^
 
-.. autoclass:: opencmiss.argon.argonregion.ArgonRegion
+.. autoclass:: cmlibs.argon.argonregion.ArgonRegion
    :members:
 
 ArgonSceneviewer Class
 ^^^^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: opencmiss.argon.argonsceneviewer.ArgonSceneviewer
+.. autoclass:: cmlibs.argon.argonsceneviewer.ArgonSceneviewer
    :members:
 
 ArgonSpectrums Class
 ^^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: opencmiss.argon.argonspectrums.ArgonSpectrums
+.. autoclass:: cmlibs.argon.argonspectrums.ArgonSpectrums
    :members:
 
 ArgonTessellations Class
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: opencmiss.argon.argontessellations.ArgonTessellations
+.. autoclass:: cmlibs.argon.argontessellations.ArgonTessellations
    :members:
 
 ArgonView Class
 ^^^^^^^^^^^^^^^
 
-.. autoclass:: opencmiss.argon.argonviews.ArgonView
+.. autoclass:: cmlibs.argon.argonviews.ArgonView
    :members:
 
 ArgonViewManager Class
 ^^^^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: opencmiss.argon.argonviews.ArgonViewManager
+.. autoclass:: cmlibs.argon.argonviews.ArgonViewManager
    :members:

@@ -16,7 +16,7 @@
 import json
 
 from opencmiss.zinc.status import OK as ZINC_OK
-from opencmiss.argon.argonerror import ArgonError
+from cmlibs.argon.argonerror import ArgonError
 
 
 class ArgonTessellations(object):
@@ -46,7 +46,7 @@ class ArgonTessellations(object):
         tessellationsDescription = json.dumps(dictInput)
         result = self._tessellationmodule.readDescription(tessellationsDescription)
         if result != ZINC_OK:
-             raise ArgonError("Failed to read tessellations")
+            raise ArgonError("Failed to read tessellations")
 
     def serialize(self):
         """

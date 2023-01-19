@@ -15,8 +15,8 @@
 """
 import json
 
-from opencmiss.argon.argonmodelsources import deserializeArgonModelSource
-from opencmiss.argon.argonerror import ArgonError
+from cmlibs.argon.argonmodelsources import deserializeArgonModelSource
+from cmlibs.argon.argonerror import ArgonError
 from opencmiss.zinc.status import OK as ZINC_OK
 
 
@@ -36,7 +36,7 @@ class ArgonRegion(object):
         # callback class, only for root region
         if not parent:
             self._regionChangeCallbacks = []
-        
+
         self._fieldTypeDict = {}
 
     # def __del__(self):
@@ -217,14 +217,14 @@ class ArgonRegion(object):
             fieldmoduleDescription = json.dumps(dictInput["Fieldmodule"])
             result = fieldmodule.readDescription(fieldmoduleDescription)
             if result != ZINC_OK:
-                 raise ArgonError("Failed to read field module description into region " + self.getPath())
+                raise ArgonError("Failed to read field module description into region " + self.getPath())
 
         if "Scene" in dictInput:
             scene = self._zincRegion.getScene()
             sceneDescription = json.dumps(dictInput["Scene"])
             result = scene.readDescription(sceneDescription, True)
             if result != ZINC_OK:
-                 raise ArgonError("Failed to read scene description into region " + self.getPath())
+                raise ArgonError("Failed to read scene description into region " + self.getPath())
 
         if ("Fieldmodule" in dictInput) and isinstance(dictInput["Fieldmodule"], dict) and \
                 ("Fields" in dictInput["Fieldmodule"]):
@@ -360,7 +360,7 @@ class ArgonRegion(object):
         :return: ArgonRegion
         """
         return self._children[index]
-    
+
     def getFieldTypeDict(self):
         """
         Returns the dictionary of field type in current region.
@@ -368,7 +368,7 @@ class ArgonRegion(object):
         :return: dict
         """
         return self._fieldTypeDict
-    
+
     def addFieldTypeToDict(self, field, fieldType):
         """
         Add new field type and field to the field type dictionary in current region.
@@ -378,7 +378,7 @@ class ArgonRegion(object):
         """
         if field and field.isValid():
             self._fieldTypeDict[field.getName()] = fieldType
-            
+
     def replaceFieldTypeKey(self, oldName, newName):
         """
         Replace field type name in the field type dictionary in current region.
@@ -388,7 +388,7 @@ class ArgonRegion(object):
         """
         if oldName in self._fieldTypeDict:
             self._fieldTypeDict[newName] = self._fieldTypeDict.pop(oldName)
-    
+
     def clear(self):
         """
         Clear all contents of region. Can be called for root region
@@ -478,7 +478,7 @@ class ArgonRegion(object):
     def applyModelSource(self, modelSource):
         """
         Apply model source, loading it or reloading it with all other sources as required
-        
+
         :param modelSource: The model source to apply
         """
         modelSource.setEdit(False)
@@ -490,7 +490,7 @@ class ArgonRegion(object):
     def removeModelSource(self, modelSource):
         """
         Remove model source, reloading model if it removed source had been loaded
-        
+
         :param modelSource: The model source to remove
         """
         self._modelSources.remove(modelSource)

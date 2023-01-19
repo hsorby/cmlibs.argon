@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, 'src', 'opencmiss', 'argon', '__init__.py')) as fd:
+with open(os.path.join(here, 'src', 'cmlibs', 'argon', '__init__.py')) as fd:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
                         fd.read(), re.MULTILINE).group(1)
 
@@ -35,15 +35,15 @@ software_licence = readfile("LICENSE")
 requires = ['opencmiss.zinc', 'packaging']
 
 setup(
-    name='opencmiss.argon',
+    name='cmlibs.argon',
     version=version,
-    description='OpenCMISS-Argon visualisation descriptions.',
+    description='CMLibs-Argon visualisation descriptions.',
     long_description='\n'.join(readme) + software_licence,
     long_description_content_type='text/x-rst',
     classifiers=[],
     author='Hugh Sorby',
     author_email='h.sorby@auckland.ac.nz',
-    url='https://github.com/OpenCMISS-Bindings/opencmiss.argon',
+    url='https://github.com/cmlibs-python/cmlibs.argon',
     license='Apache Software License',
     license_files=("LICENSE",),
     packages=find_packages("src"),
@@ -52,4 +52,3 @@ setup(
     zip_safe=False,
     install_requires=requires,
 )
-

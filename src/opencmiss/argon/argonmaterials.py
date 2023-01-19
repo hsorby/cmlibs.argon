@@ -16,7 +16,7 @@
 import json
 
 from opencmiss.zinc.status import OK as ZINC_OK
-from opencmiss.argon.argonerror import ArgonError
+from cmlibs.argon.argonerror import ArgonError
 
 
 class ArgonMaterials(object):
