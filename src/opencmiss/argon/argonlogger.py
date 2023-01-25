@@ -18,17 +18,18 @@ import sys
 import logging
 
 try:
-    from PySide2 import QtCore
-    HAVE_PYSIDE2 = True
+    from PySide6 import QtCore
+    HAVE_PYSIDE6 = True
 except ImportError:
-    HAVE_PYSIDE2 = False
+    QtCore = None
+    HAVE_PYSIDE6 = False
 
 from opencmiss.zinc.logger import Logger
 
 ENABLE_STD_STREAM_CAPTURE = False
 
 
-if HAVE_PYSIDE2:
+if HAVE_PYSIDE6:
     class CustomStreamImpl(QtCore.QObject):
         # Signal is a class variable; PySide creates per-instance SignalInstance object of same name
         messageWritten = QtCore.Signal(str, str)
