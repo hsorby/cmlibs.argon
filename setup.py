@@ -32,12 +32,12 @@ readme.append('')
 
 software_licence = readfile("LICENSE")
 
-requires = ['opencmiss.zinc', 'packaging']
+requires = ['cmlibs.zinc', 'packaging']
 
 setup(
     name='cmlibs.argon',
     version=version,
-    description='CMLibs-Argon visualisation descriptions.',
+    description='CMLibs Argon visualisation descriptions.',
     long_description='\n'.join(readme) + software_licence,
     long_description_content_type='text/x-rst',
     classifiers=[],

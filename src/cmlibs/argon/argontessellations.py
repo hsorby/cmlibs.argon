@@ -15,7 +15,7 @@
 """
 import json
 
-from opencmiss.zinc.status import OK as ZINC_OK
+from cmlibs.zinc.status import OK as ZINC_OK
 from cmlibs.argon.argonerror import ArgonError
 
 
@@ -32,7 +32,7 @@ class ArgonTessellations(object):
         """
         Return the zinc Context of current Argon Tessellations.
 
-        :return: opencmiss.zinc.context.Context
+        :return: cmlibs.zinc.context.Context
         """
         return self._zincContext
 

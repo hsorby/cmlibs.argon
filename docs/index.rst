@@ -1,7 +1,7 @@
-CMLibs-Argon
+CMLibs Argon
 ============
 
-The **CMLibs-Argon** is the core data structures for GUI applications using OpenCMISS-Zinc `opencmiss.org <http://opencmiss.org>`_.
+The **CMLibs Argon** is the core data structures for GUI applications using Zinc `cmlibs.org <https://cmlibs.org>`_.
 
 Manages and serializes argon file.
 
@@ -13,12 +13,12 @@ Requirements
 
 python >= 3.6
 
-opencmiss.zinc >= 3.6
+cmlibs.zinc >= 3.6
 
 pip install
 ^^^^^^^^^^^
 
-CMLibs-Argon can be installed from PyPi.org with the following command::
+CMLibs Argon can be installed from PyPi.org with the following command::
 
   pip install cmlibs.argon
 

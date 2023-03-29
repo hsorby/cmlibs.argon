@@ -15,7 +15,7 @@
 """
 import json
 
-from opencmiss.zinc.status import OK as ZINC_OK
+from cmlibs.zinc.status import OK as ZINC_OK
 from cmlibs.argon.argonerror import ArgonError
 
 SPECTRUM_GLYPH_NAME_FORMAT = 'colour_bar_{0}'
@@ -36,7 +36,7 @@ class ArgonSpectrums(object):
         """
         Return the zinc Context of current argon spectrum.
 
-        :return: opencmiss.zinc.context.Context
+        :return: cmlibs.zinc.context.Context
         """
         return self._zincContext
 

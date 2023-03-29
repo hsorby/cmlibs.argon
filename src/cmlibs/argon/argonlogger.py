@@ -24,7 +24,7 @@ except ImportError:
     QtCore = None
     HAVE_PYSIDE6 = False
 
-from opencmiss.zinc.logger import Logger
+from cmlibs.zinc.logger import Logger
 
 ENABLE_STD_STREAM_CAPTURE = False
 
@@ -191,7 +191,7 @@ class ArgonLogger(object):
         """
         Set the underlying Zinc context for the Argon Logger.
 
-        :param zincContext: opencmiss.zinc.context.Context
+        :param zincContext: cmlibs.zinc.context.Context
         """
         if ArgonLogger._loggerNotifier:
             ArgonLogger._loggerNotifier.clearCallback()

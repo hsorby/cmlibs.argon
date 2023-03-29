@@ -27,8 +27,8 @@ from cmlibs.argon.argonerror import ArgonError
 from cmlibs.argon.argonlogger import ArgonLogger
 from cmlibs.argon.settings import mainsettings
 
-from opencmiss.zinc.context import Context
-from opencmiss.zinc.material import Material
+from cmlibs.zinc.context import Context
+from cmlibs.zinc.material import Material
 
 
 class ArgonDocument(object):
@@ -163,7 +163,7 @@ class ArgonDocument(object):
         """
         Returns the underlying Zinc context for the document.
 
-        :return: opencmiss.zinc.context.Context
+        :return: cmlibs.zinc.context.Context
         """
         return self._zincContext
 

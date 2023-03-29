@@ -6,7 +6,7 @@ here = os.path.dirname(__file__)
 
 # -- Project information
 
-project = 'CMLibs-Argon'
+project = 'CMLibs Argon'
 copyright = '2022, University of Auckland'
 author = 'University of Auckland'
 

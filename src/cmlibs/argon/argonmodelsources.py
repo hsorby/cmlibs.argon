@@ -16,7 +16,7 @@
 import os
 import pathlib
 
-from opencmiss.zinc.streamregion import StreaminformationRegion
+from cmlibs.zinc.streamregion import StreaminformationRegion
 from cmlibs.argon.argonerror import ArgonError
 
 

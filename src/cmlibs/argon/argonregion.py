@@ -17,7 +17,7 @@ import json
 
 from cmlibs.argon.argonmodelsources import deserializeArgonModelSource
 from cmlibs.argon.argonerror import ArgonError
-from opencmiss.zinc.status import OK as ZINC_OK
+from cmlibs.zinc.status import OK as ZINC_OK
 
 
 REGION_PATH_SEPARATOR = "/"
@@ -340,13 +340,13 @@ class ArgonRegion(object):
         """
         Returns the underlying Zinc context for the Argon region.
 
-        :return: opencmiss.zinc.context.Context
+        :return: cmlibs.zinc.context.Context
         """
         return self._zincRegion
 
     def getChildCount(self):
         """
-        Returns the amoung of child region the current region has.
+        Returns the number of child regions the current region has.
 
         :return: int
         """
