@@ -31,6 +31,9 @@ from cmlibs.zinc.context import Context
 from cmlibs.zinc.material import Material
 
 
+ARGON_DOCUMENT_VERSION_KEY = "CMLibs Argon Version"
+
+
 class ArgonDocument(object):
 
     def __init__(self, name="Argon"):
@@ -121,14 +124,10 @@ class ArgonDocument(object):
         :param  state: string serialisation of Argon JSON document.
         """
         d = json.loads(state)
-        document_version = d.get("CMLibs-Argon Version")
-        if not document_version:
-            # migrate from OpenCMISS-Argon Version:
-            document_version = d.get("OpenCMISS-Argon Version")
-
-        if not (document_version and ("RootRegion" in d)):
+        if not ((ARGON_DOCUMENT_VERSION_KEY in d) and ("RootRegion" in d)):
             raise ArgonError("Invalid Argon document")
 
+        document_version = d[ARGON_DOCUMENT_VERSION_KEY]
         document_version_string = ".".join(document_version)
         if version.parse(document_version_string) > version.parse(mainsettings.VERSION_STRING):
             raise ArgonError(f"Document version '{document_version_string}' is greater than this version of Argon ({mainsettings.VERSION_STRING})."
@@ -154,7 +153,7 @@ class ArgonDocument(object):
         :return: Python JSON object containing the JSON description of argon document object.
         """
         dictOutput = {
-            "CMLibs-Argon Version": mainsettings.VERSION_LIST,
+            ARGON_DOCUMENT_VERSION_KEY: mainsettings.VERSION_LIST,
             "Spectrums": self._spectrums.serialize(),
             "Materials": self._materials.serialize(),
             "Views": self._view_manager.serialize(),
