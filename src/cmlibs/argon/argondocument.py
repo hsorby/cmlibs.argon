@@ -121,10 +121,14 @@ class ArgonDocument(object):
         :param  state: string serialisation of Argon JSON document.
         """
         d = json.loads(state)
-        if not (("CMLibs-Argon Version" in d) and ("RootRegion" in d)):
+        document_version = d.get("CMLibs-Argon Version")
+        if not document_version:
+            # migrate from OpenCMISS-Argon Version:
+            document_version = d.get("OpenCMISS-Argon Version")
+
+        if not (document_version and ("RootRegion" in d)):
             raise ArgonError("Invalid Argon document")
 
-        document_version = d["CMLibs-Argon Version"]
         document_version_string = ".".join(document_version)
         if version.parse(document_version_string) > version.parse(mainsettings.VERSION_STRING):
             raise ArgonError(f"Document version '{document_version_string}' is greater than this version of Argon ({mainsettings.VERSION_STRING})."
