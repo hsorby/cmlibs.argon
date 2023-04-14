@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
-from opencmiss.argon.argonsceneviewer import ArgonSceneviewer
+from cmlibs.argon.argonsceneviewer import ArgonSceneviewer
 
 LAYOUT1 = {
     "Name": "Layout1",
@@ -84,7 +84,7 @@ class ArgonViewManager(object):
         """
         Returns the underlying Zinc context for the view manager.
 
-        :return: opencmiss.zinc.context.Context
+        :return: cmlibs.zinc.context.Context
         """
         return self._zincContext
 
@@ -236,7 +236,7 @@ class ArgonView(object):
         """
         Return the zinc Context of current argon view.
 
-        :return: opencmiss.zinc.context.Context
+        :return: cmlibs.zinc.context.Context
         """
         return self._zincContext
 

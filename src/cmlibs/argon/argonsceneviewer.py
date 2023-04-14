@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
-from opencmiss.zinc.sceneviewer import Sceneviewer
+from cmlibs.zinc.sceneviewer import Sceneviewer
 
 
 SceneviewerProjectionModeMap = {
@@ -176,7 +176,7 @@ class ArgonSceneviewer(object):
         self._lookat_position = d["LookatPosition"] if "LookatPosition" in d else default_lookat_position
         self._near_clipping_plane = d["NearClippingPlane"] if "NearClippingPlane" in d else default_near_clipping_plane
         self._perturb_lines_flag = d["PerturbLinesFlag"] if "PerturbLinesFlag" in d else default_perturb_lines_flag
-        self._projection_mode = SceneviewerProjectionModeEnumFromString(d["ProjectionMode"])  if "ProjectionMode" in d \
+        self._projection_mode = SceneviewerProjectionModeEnumFromString(d["ProjectionMode"]) if "ProjectionMode" in d \
             else default_projection_mode
         self._scene = d["Scene"] if "Scene" in d else default_scene
         self._scene_filter = d["Scenefilter"] if "Scenefilter" in d else default_scene_filter

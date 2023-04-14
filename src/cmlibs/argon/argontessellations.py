@@ -15,8 +15,8 @@
 """
 import json
 
-from opencmiss.zinc.status import OK as ZINC_OK
-from opencmiss.argon.argonerror import ArgonError
+from cmlibs.zinc.status import OK as ZINC_OK
+from cmlibs.argon.argonerror import ArgonError
 
 
 class ArgonTessellations(object):
@@ -32,7 +32,7 @@ class ArgonTessellations(object):
         """
         Return the zinc Context of current Argon Tessellations.
 
-        :return: opencmiss.zinc.context.Context
+        :return: cmlibs.zinc.context.Context
         """
         return self._zincContext
 
@@ -46,7 +46,7 @@ class ArgonTessellations(object):
         tessellationsDescription = json.dumps(dictInput)
         result = self._tessellationmodule.readDescription(tessellationsDescription)
         if result != ZINC_OK:
-             raise ArgonError("Failed to read tessellations")
+            raise ArgonError("Failed to read tessellations")
 
     def serialize(self):
         """

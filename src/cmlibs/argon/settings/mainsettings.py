@@ -14,7 +14,7 @@
    limitations under the License.
 """
 
-from opencmiss.argon import __version__
+from cmlibs.argon import __version__
 
 _split_version = __version__.split('.')
 

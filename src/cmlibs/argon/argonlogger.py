@@ -24,7 +24,7 @@ except ImportError:
     QtCore = None
     HAVE_PYSIDE6 = False
 
-from opencmiss.zinc.logger import Logger
+from cmlibs.zinc.logger import Logger
 
 ENABLE_STD_STREAM_CAPTURE = False
 
@@ -116,7 +116,7 @@ class ArgonLogger(object):
     def setCallback(callback):
         """
         Set Argon Logger callback.
-        
+
         :param callback: Callback function.
         """
         ArgonLogger._callback = callback
@@ -125,7 +125,7 @@ class ArgonLogger(object):
     def getLogger():
         """
         Return the Argon Logger.
-        
+
         :return: ArgonLogger
         """
         if not ArgonLogger._logger:
@@ -147,7 +147,7 @@ class ArgonLogger(object):
     def writeErrorMessage(string):
         """
         Write Argon Logger Error message.
-        
+
         :param string: string
         """
         ArgonLogger.getLogger().error(string)
@@ -156,7 +156,7 @@ class ArgonLogger(object):
     def writeWarningMessage(string):
         """
         Write Argon Logger Warning message.
-        
+
         :param string: string
         """
         ArgonLogger.getLogger().warning(string)
@@ -165,7 +165,7 @@ class ArgonLogger(object):
     def writeInformationMessage(string):
         """
         Write Argon Logger Information message.
-        
+
         :param string: string
         """
         ArgonLogger.getLogger().info(string)
@@ -174,7 +174,7 @@ class ArgonLogger(object):
     def loggerCallback(event):
         """
         Argon Logger Callback, wirte different type of message based on the input event flags.
-        
+
         :param event: event
         """
         if event.getChangeFlags() == Logger.CHANGE_FLAG_NEW_MESSAGE:
@@ -187,11 +187,11 @@ class ArgonLogger(object):
                 ArgonLogger.writeInformationMessage(text)
 
     @staticmethod
-    def setZincContext(zincContext):        
+    def setZincContext(zincContext):
         """
         Set the underlying Zinc context for the Argon Logger.
 
-        :param zincContext: opencmiss.zinc.context.Context
+        :param zincContext: cmlibs.zinc.context.Context
         """
         if ArgonLogger._loggerNotifier:
             ArgonLogger._loggerNotifier.clearCallback()

@@ -1,7 +1,5 @@
+============
+CMLibs Argon
+============
 
-
-===============
-OpenCMISS-Argon
-===============
-
-The core data structures for GUI applications using OpenCMISS-Zinc `opencmiss.org <http://opencmiss.org>`_.
+The core data structures for GUI applications using Zinc `cmlibs.org <https://cmlibs.org>`_.

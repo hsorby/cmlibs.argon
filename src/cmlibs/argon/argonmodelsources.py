@@ -16,8 +16,8 @@
 import os
 import pathlib
 
-from opencmiss.zinc.streamregion import StreaminformationRegion
-from opencmiss.argon.argonerror import ArgonError
+from cmlibs.zinc.streamregion import StreaminformationRegion
+from cmlibs.argon.argonerror import ArgonError
 
 
 def _file_name_to_relative_path(file_name, base_path):

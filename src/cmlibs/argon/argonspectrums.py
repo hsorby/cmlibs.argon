@@ -15,8 +15,8 @@
 """
 import json
 
-from opencmiss.zinc.status import OK as ZINC_OK
-from opencmiss.argon.argonerror import ArgonError
+from cmlibs.zinc.status import OK as ZINC_OK
+from cmlibs.argon.argonerror import ArgonError
 
 SPECTRUM_GLYPH_NAME_FORMAT = 'colour_bar_{0}'
 
@@ -36,7 +36,7 @@ class ArgonSpectrums(object):
         """
         Return the zinc Context of current argon spectrum.
 
-        :return: opencmiss.zinc.context.Context
+        :return: cmlibs.zinc.context.Context
         """
         return self._zincContext
 
@@ -102,7 +102,7 @@ class ArgonSpectrums(object):
         """
         Find or create a GlyphColourBar for spectrum in the glyph module.
         Newly created colour bar is set up for display in the normalised window coordinates at left.
-        
+
         :param spectrum: The spectrum that the colour bar belongs to.
         """
         colourBar = self._findSpectrumGlyphColourBar(spectrum)
@@ -154,7 +154,7 @@ class ArgonSpectrums(object):
     def removeSpectrumByName(self, name):
         """
         Unmanages spectrum and its colour bar. Note spectrum is only removed if neither are in use.
-        
+
         :return: True if spectrum and colour bar removed, false if failed i.e. either are in use.
         """
         spectrum = self._spectrummodule.findSpectrumByName(name)

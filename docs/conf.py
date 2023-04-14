@@ -6,7 +6,7 @@ here = os.path.dirname(__file__)
 
 # -- Project information
 
-project = 'OpenCMISS-Argon'
+project = 'CMLibs Argon'
 copyright = '2022, University of Auckland'
 author = 'University of Auckland'
 
@@ -41,4 +41,3 @@ epub_show_urls = 'footnote'
 
 sys.path.append(os.path.join(here, 'mock'))
 sys.path.append(os.path.join(here, '..', 'src'))
-

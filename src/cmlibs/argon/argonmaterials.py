@@ -15,8 +15,8 @@
 """
 import json
 
-from opencmiss.zinc.status import OK as ZINC_OK
-from opencmiss.argon.argonerror import ArgonError
+from cmlibs.zinc.status import OK as ZINC_OK
+from cmlibs.argon.argonerror import ArgonError
 
 
 class ArgonMaterials(object):
@@ -32,7 +32,7 @@ class ArgonMaterials(object):
         """
         Returns the underlying Zinc context for the Argon Material.
 
-        :return: opencmiss.zinc.context.Context
+        :return: cmlibs.zinc.context.Context
         """
         return self._zincContext
 

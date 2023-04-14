@@ -17,18 +17,18 @@ import json
 
 from packaging import version
 
-from opencmiss.argon import __version__
-from opencmiss.argon.argonregion import ArgonRegion, REGION_PATH_SEPARATOR
-from opencmiss.argon.argonspectrums import ArgonSpectrums
-from opencmiss.argon.argonmaterials import ArgonMaterials
-from opencmiss.argon.argonviews import ArgonViewManager
-from opencmiss.argon.argontessellations import ArgonTessellations
-from opencmiss.argon.argonerror import ArgonError
-from opencmiss.argon.argonlogger import ArgonLogger
-from opencmiss.argon.settings import mainsettings
+from cmlibs.argon import __version__
+from cmlibs.argon.argonregion import ArgonRegion, REGION_PATH_SEPARATOR
+from cmlibs.argon.argonspectrums import ArgonSpectrums
+from cmlibs.argon.argonmaterials import ArgonMaterials
+from cmlibs.argon.argonviews import ArgonViewManager
+from cmlibs.argon.argontessellations import ArgonTessellations
+from cmlibs.argon.argonerror import ArgonError
+from cmlibs.argon.argonlogger import ArgonLogger
+from cmlibs.argon.settings import mainsettings
 
-from opencmiss.zinc.context import Context
-from opencmiss.zinc.material import Material
+from cmlibs.zinc.context import Context
+from cmlibs.zinc.material import Material
 
 
 class ArgonDocument(object):
@@ -121,10 +121,10 @@ class ArgonDocument(object):
         :param  state: string serialisation of Argon JSON document.
         """
         d = json.loads(state)
-        if not (("OpenCMISS-Argon Version" in d) and ("RootRegion" in d)):
+        if not (("CMLibs-Argon Version" in d) and ("RootRegion" in d)):
             raise ArgonError("Invalid Argon document")
 
-        document_version = d["OpenCMISS-Argon Version"]
+        document_version = d["CMLibs-Argon Version"]
         document_version_string = ".".join(document_version)
         if version.parse(document_version_string) > version.parse(mainsettings.VERSION_STRING):
             raise ArgonError(f"Document version '{document_version_string}' is greater than this version of Argon ({mainsettings.VERSION_STRING})."
@@ -150,7 +150,7 @@ class ArgonDocument(object):
         :return: Python JSON object containing the JSON description of argon document object.
         """
         dictOutput = {
-            "OpenCMISS-Argon Version": mainsettings.VERSION_LIST,
+            "CMLibs Argon Version": mainsettings.VERSION_LIST,
             "Spectrums": self._spectrums.serialize(),
             "Materials": self._materials.serialize(),
             "Views": self._view_manager.serialize(),
@@ -163,7 +163,7 @@ class ArgonDocument(object):
         """
         Returns the underlying Zinc context for the document.
 
-        :return: opencmiss.zinc.context.Context
+        :return: cmlibs.zinc.context.Context
         """
         return self._zincContext
 
