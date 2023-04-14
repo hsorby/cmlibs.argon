@@ -150,7 +150,7 @@ class ArgonDocument(object):
         :return: Python JSON object containing the JSON description of argon document object.
         """
         dictOutput = {
-            "CMLibs-Argon Version": mainsettings.VERSION_LIST,
+            "CMLibs Argon Version": mainsettings.VERSION_LIST,
             "Spectrums": self._spectrums.serialize(),
             "Materials": self._materials.serialize(),
             "Views": self._view_manager.serialize(),
