@@ -1,6 +1,8 @@
 import json
 import os
 
+from cmlibs.argon.argondocument import ARGON_DOCUMENT_VERSION_KEY
+
 
 def is_argon_file(filename):
     if not os.path.isfile(filename):
@@ -17,7 +19,7 @@ def is_argon_file(filename):
     except json.JSONDecodeError:
         return False
 
-    if 'CMLibs Argon Version' not in d:
+    if ARGON_DOCUMENT_VERSION_KEY not in d:
         return False
 
     return True
