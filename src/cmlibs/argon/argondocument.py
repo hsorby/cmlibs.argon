@@ -83,6 +83,8 @@ class ArgonDocument(object):
         materialmodule.endChange()
         glyphmodule = self._zincContext.getGlyphmodule()
         glyphmodule.defineStandardGlyphs()
+        spectrummodule = self._zincContext.getSpectrummodule()
+        spectrummodule.defineStandardSpectrums()
 
         zincRootRegion = self._zincContext.getDefaultRegion()
         self._rootRegion = ArgonRegion(name=None, zincRegion=zincRootRegion, parent=None)
