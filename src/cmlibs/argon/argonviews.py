@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
+import re
+
 from cmlibs.argon.argonsceneviewer import ArgonSceneviewer
 
 LAYOUT1 = {
@@ -70,13 +72,20 @@ LAYOUTS = [
 ]
 
 
+def _name_stem(name):
+    result = re.search("(.*)[0-9]+$", name)
+    if result:
+        return result.group(1)
+    return name
+
+
 class ArgonViewManager(object):
     """
     Manages and serializes ArgonViews.
     """
 
-    def __init__(self, zincContext):
-        self._zincContext = zincContext
+    def __init__(self, zinc_context):
+        self._zincContext = zinc_context
         self._views = []
         self._activeView = None
 
@@ -168,7 +177,7 @@ class ArgonViewManager(object):
 
     def addViewByType(self, view_type, name=None):
         """
-        Create a new view with given view layout type, there are two avaiable types:
+        Create a new view with given view layout type, there are two available types:
         LAYOUT1 for view with single sceneviewer, LAYOUT2x2GRID for view with four sceneviewers.
 
         :param view_type: View layout type.
@@ -180,8 +189,10 @@ class ArgonViewManager(object):
                 new_view.deserialize(layout)
                 if name is None:
                     name = view_type
+
                 if self._name_in_use(name):
-                    name = self._next_available_name(name)
+                    name_stem = _name_stem(name)
+                    name = self._next_available_name(name_stem)
                 new_view.setName(name)
                 self._views.append(new_view)
                 return new_view
@@ -203,10 +214,10 @@ class ArgonViewManager(object):
 
     def _next_available_name(self, name_stem):
         iteration = 1
-        while self._name_in_use(f"{name_stem}_{iteration}"):
+        while self._name_in_use(f"{name_stem}{iteration}"):
             iteration += 1
 
-        return f"{name_stem}_{iteration}"
+        return f"{name_stem}{iteration}"
 
     def updateSceneviewers(self, view_index, sceneviewers_info):
         """
